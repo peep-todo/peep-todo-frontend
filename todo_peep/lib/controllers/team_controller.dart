@@ -14,6 +14,23 @@ class TeamController extends GetxController {
 
   RxBool allFinish = false.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    // 초기화 작업을 여기서 수행합니다.
+    initializeProject();
+  }
+
+  void initializeProject() {
+    teamName = ''.obs;
+    projectName = ''.obs;
+    description = ''.obs;
+    start = ''.obs;
+    end = ''.obs;
+
+    allFinish = false.obs;
+  }
+
   //시작 날짜와 종료날짜 입력시 값 변환
   void handleDateRangeSelected(DateTime? startDate, DateTime? endDate) {
     if (startDate != null && endDate != null) {

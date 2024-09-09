@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:todo_peep/app.dart';
 import 'package:todo_peep/binding/init_bindings.dart';
 import 'package:todo_peep/screens/team/project_create.dart';
+import 'package:todo_peep/screens/team/team.dart';
+import 'package:todo_peep/screens/team/team_detail.dart';
+import 'package:todo_peep/screens/team/team_detail_veiwall.dart';
 import 'package:todo_peep/screens/team/team_project_add.dart';
 
 void main() {
@@ -35,8 +38,11 @@ class MyApp extends StatelessWidget {
       initialBinding: InitBindings(),
       getPages: [
         GetPage(name: "/", page: () => const App()),
+        GetPage(name: "/team", page: () => Team()),
         GetPage(name: "/team/add", page: () => TeamProjectAdd()),
-        GetPage(name: "/team/create", page: () => const ProjectCreate())
+        GetPage(name: "/team/create", page: () => const ProjectCreate()),
+        GetPage(name: "/team/detail", page: () => const TeamDetail()),
+        GetPage(name: "/team/detail/viewAll", page: () => TeamDetailViewall())
       ],
       initialRoute: "/",
     );
