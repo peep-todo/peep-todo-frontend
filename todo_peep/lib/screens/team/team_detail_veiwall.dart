@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_peep/widgets/checkbox_componenet.dart';
+import 'package:todo_peep/widgets/common/add_choice.dart';
 
 enum Type { team, personal }
 
@@ -145,7 +146,28 @@ class TeamDetailViewall extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 5),
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showModalBottomSheet(
+                          backgroundColor: Colors.white,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20),
+                                bottom: Radius.circular(20)),
+                          ),
+                          context: context,
+                          builder: (context) {
+                            return SizedBox(
+                              width: screenWidth - 20,
+                              height: screenHeight * 0.28, // 원하는 높이로 설정
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: AddChoice(),
+                              ),
+                            );
+                          },
+                        );
+                      },
                       style: OutlinedButton.styleFrom(
                         minimumSize: const Size(63, 33),
                         padding: const EdgeInsets.symmetric(horizontal: 10),
