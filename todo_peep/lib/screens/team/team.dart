@@ -7,17 +7,71 @@ class Team extends GetView<TeamController> {
   Team({super.key});
 
   //아마 디비에서 모두보기, 진행중, 완료된 에서의 팀이름등의 정보를 전달
-  final List<Map<String, String>> all = [
-    {"name": "모두보기1"},
-    {"name": "모두보기2"},
-    {"name": "베포 가즈앗"},
+  final List<Map<String, dynamic>> all = [
+    {
+      "name": "모두보기1",
+      "teamName": "베포가즈앗1",
+      "endDate": "8월 25일, 2024",
+      "remainTask": 28,
+      "description": "김효진과 임유나와 최수진과 이예빈이 함께 베포하기 위해서 만드는 웹",
+      "member": "",
+      "totalValue": 10.0,
+      "complete": 2.0
+    },
+    {
+      "name": "모두보기2",
+      "teamName": "베포가즈앗2",
+      "endDate": "8월 25일, 2024",
+      "remainTask": 28,
+      "description": "김효진과 임유나와 최수진과 이예빈이 함께 베포하기 위해서 만드는 웹",
+      "member": "",
+      "totalValue": 10.0,
+      "complete": 5.0
+    },
+    {
+      "name": "베포 가즈앗",
+      "teamName": "베포가즈앗3",
+      "endDate": "8월 25일, 2024",
+      "remainTask": 28,
+      "description": "김효진과 임유나와 최수진과 이예빈이 함께 베포하기 위해서 만드는 웹",
+      "member": "",
+      "totalValue": 10.0,
+      "complete": 1.0,
+    },
   ];
-  final List<Map<String, String>> process = [
-    {"name": "진행중1"},
-    {"name": "진행중2"},
+  final List<Map<String, dynamic>> process = [
+    {
+      "name": "진행중1",
+      "teamName": "베포가즈앗",
+      "endDate": "8월 25일, 2024",
+      "remainTask": 28,
+      "description": "김효진과 임유나와 최수진과 이예빈이 함께 베포하기 위해서 만드는 웹",
+      "member": "",
+      "totalValue": 10.0,
+      "complete": 2.0
+    },
+    {
+      "name": "진행중2",
+      "teamName": "베포가즈앗",
+      "endDate": "8월 25일, 2024",
+      "remainTask": 28,
+      "description": "김효진과 임유나와 최수진과 이예빈이 함께 베포하기 위해서 만드는 웹",
+      "member": "",
+      "totalValue": 10.0,
+      "complete": 2.0
+    },
   ];
-  final List<Map<String, String>> finish = [
-    {"name": "완료된"},
+  final List<Map<String, dynamic>> finish = [
+    {
+      "name": "완료된",
+      "teamName": "베포가즈앗",
+      "endDate": "8월 25일, 2024",
+      "remainTask": 28,
+      "description": "김효진과 임유나와 최수진과 이예빈이 함께 베포하기 위해서 만드는 웹",
+      "member": "",
+      "totalValue": 10.0,
+      "complete": 2.0
+    },
   ];
 
   @override
@@ -73,8 +127,8 @@ class Team extends GetView<TeamController> {
                           borderRadius: BorderRadius.circular(50),
                         ),
                         backgroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 10),
+                        minimumSize: const Size(63, 33),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                       ),
                       child: const Text(
                         "+ Add",
@@ -145,13 +199,13 @@ class Team extends GetView<TeamController> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        for (Map<String, String> team
+                        for (Map<String, dynamic> team
                             in controller.select.value == 1
                                 ? all
                                 : controller.select.value == 2
                                     ? process
                                     : finish)
-                          TeamProject(name: team["name"] ?? "알 수 없음"),
+                          TeamProject(teamData: team),
                       ],
                     ),
                   ),

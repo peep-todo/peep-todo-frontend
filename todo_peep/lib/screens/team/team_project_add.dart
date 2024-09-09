@@ -4,6 +4,8 @@ import 'package:todo_peep/controllers/team_controller.dart';
 import 'package:todo_peep/widgets/team/select_date.dart';
 import 'package:get/get.dart';
 
+enum Type { team, personal }
+
 class TeamProjectAdd extends GetView<TeamController> {
   TeamProjectAdd({super.key});
 
@@ -19,6 +21,7 @@ class TeamProjectAdd extends GetView<TeamController> {
     return strToday;
   }
 
+  late final Map<String, dynamic> teamData;
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -157,7 +160,7 @@ class TeamProjectAdd extends GetView<TeamController> {
                             ),
                           ),
                           SizedBox(
-                            width: 160,
+                            width: screenWidth * 0.4,
                             height: 50,
                             child: TextFormField(
                                 controller: dateController,
@@ -232,7 +235,7 @@ class TeamProjectAdd extends GetView<TeamController> {
                             ),
                           ),
                           SizedBox(
-                            width: 160,
+                            width: screenWidth * 0.4,
                             height: 50,
                             child: TextFormField(
                                 controller: dateController,
@@ -314,7 +317,19 @@ class TeamProjectAdd extends GetView<TeamController> {
               //모든 내용이 입력되었을경우 생성완료
               onPressed: () {
                 if (controller.allFinish == true.obs) {
-                  Get.toNamed("/team/create");
+                  teamData = {
+                    'category': '',
+                    'teamName': controller.teamName.toString(),
+                    'type': Type.team,
+                    'startDate': controller.start.toString(),
+                    'endDate': controller.end.toString(),
+                    'startTime': '',
+                    'endTime': '',
+                    'description': controller.description.toString(),
+                    'color': '',
+                    'isChecked': false,
+                  };
+                  Get.toNamed("/team/create", arguments: teamData);
                 }
               },
               child: Text(
