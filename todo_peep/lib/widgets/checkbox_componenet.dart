@@ -36,7 +36,7 @@ class _CheckboxComponenetState extends State<CheckboxComponenet> {
         borderRadius: BorderRadius.circular(10),
         color: isChecked
             ? Color(int.parse('0xff${widget.taskData['color']}'))
-                .withOpacity(0.2)
+                .withOpacity(0.1)
             : Colors.white,
       ),
       child: Row(
