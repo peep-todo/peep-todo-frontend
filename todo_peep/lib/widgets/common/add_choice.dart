@@ -52,7 +52,8 @@ class AddChoice extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset("assets/images/Calendar.svg"),
+                          SvgPicture.asset(
+                              "assets/images/add_choice/category.svg"),
                           SizedBox(
                             height: 3,
                           ),
@@ -71,7 +72,8 @@ class AddChoice extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset("assets/images/Calendar.svg"),
+                          SvgPicture.asset(
+                              "assets/images/add_choice/schedule.svg"),
                           SizedBox(
                             height: 3,
                           ),
@@ -90,7 +92,8 @@ class AddChoice extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset("assets/images/Calendar.svg"),
+                          SvgPicture.asset(
+                              "assets/images/add_choice/friends.svg"),
                           SizedBox(
                             height: 3,
                           ),
