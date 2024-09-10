@@ -25,18 +25,18 @@ class AddChoice extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          Container(
             width: screenWidth,
             height: screenHeight * 0.28 - 32,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   "무엇을 생성할까요?",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 16,
                 ),
                 Row(
@@ -47,18 +47,18 @@ class AddChoice extends StatelessWidget {
                       height: (screenWidth - 72 - 32) / 3,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xfff4f4f4),
+                        color: Color(0xfff4f4f4),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
                               "assets/images/add_choice/category.svg"),
-                          const SizedBox(
+                          SizedBox(
                             height: 3,
                           ),
-                          const Text("카테고리"),
-                          const Text("생성하기"),
+                          Text("카테고리"),
+                          Text("생성하기"),
                         ],
                       ),
                     ),
@@ -67,18 +67,18 @@ class AddChoice extends StatelessWidget {
                       height: (screenWidth - 72 - 32) / 3,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xfff4f4f4),
+                        color: Color(0xfff4f4f4),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
                               "assets/images/add_choice/schedule.svg"),
-                          const SizedBox(
+                          SizedBox(
                             height: 3,
                           ),
-                          const Text("일정"),
-                          const Text("생성하기"),
+                          Text("일정"),
+                          Text("생성하기"),
                         ],
                       ),
                     ),
@@ -87,18 +87,18 @@ class AddChoice extends StatelessWidget {
                       height: (screenWidth - 72 - 32) / 3,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xfff4f4f4),
+                        color: Color(0xfff4f4f4),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
                               "assets/images/add_choice/friends.svg"),
-                          const SizedBox(
+                          SizedBox(
                             height: 3,
                           ),
-                          const Text("프로젝트"),
-                          const Text("회의잡기"),
+                          Text("프로젝트"),
+                          Text("회의잡기"),
                         ],
                       ),
                     ),

@@ -9,7 +9,20 @@ class TeamDetail extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    final Map<String, dynamic> teamData = Get.arguments as Map<String, dynamic>;
+    // final Map<String, dynamic> teamData = Get.arguments as Map<String, dynamic>;
+
+    final Map<String, dynamic> teamData = {
+      'category': '',
+      'teamName': "",
+      'type': "Type.team",
+      'startDate': "controller.start.toString()",
+      'endDate': "controller.end.toString()",
+      'startTime': '',
+      'endTime': '',
+      'description': "controller.description.toString()",
+      'color': '',
+      'isChecked': false,
+    };
 
     // ignore: deprecated_member_use
     return WillPopScope(
@@ -47,7 +60,6 @@ class TeamDetail extends StatelessWidget {
                         color: Colors.white,
                       ),
                       width: (screenWidth - 68) / 2,
-                      height: 64,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 11, vertical: 10),
@@ -80,7 +92,6 @@ class TeamDetail extends StatelessWidget {
                         color: Colors.white,
                       ),
                       width: (screenWidth - 68) / 2,
-                      height: 64,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 11, vertical: 10),
