@@ -28,7 +28,7 @@ class AddChoice extends StatelessWidget {
           ),
           SizedBox(
             width: screenWidth,
-            height: 97 + ((screenWidth - 72 - 32) / 3) - 32,
+            height: 97 + ((screenWidth - 94) / 3) - 32,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,11 +45,11 @@ class AddChoice extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Get.toNamed("/team/add/schedule");
+                        Get.toNamed("/team/add/category");
                       },
                       child: Container(
-                        width: (screenWidth - 72 - 32) / 3,
-                        height: (screenWidth - 72 - 32) / 3,
+                        width: (screenWidth - 94) / 3,
+                        height: (screenWidth - 94) / 3,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: const Color(0xfff4f4f4),
@@ -80,41 +80,46 @@ class AddChoice extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      width: (screenWidth - 72 - 32) / 3,
-                      height: (screenWidth - 72 - 32) / 3,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xfff4f4f4),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                              "assets/images/add_choice/schedule.svg"),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          const Text(
-                            "일정",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff424656),
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed("/team/add/schedule");
+                      },
+                      child: Container(
+                        width: (screenWidth - 94) / 3,
+                        height: (screenWidth - 94) / 3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(0xfff4f4f4),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                                "assets/images/add_choice/schedule.svg"),
+                            const SizedBox(
+                              height: 3,
                             ),
-                          ),
-                          const Text(
-                            "생성하기",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff424656),
+                            const Text(
+                              "일정",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xff424656),
+                              ),
                             ),
-                          ),
-                        ],
+                            const Text(
+                              "생성하기",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xff424656),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Container(
-                      width: (screenWidth - 72 - 32) / 3,
-                      height: (screenWidth - 72 - 32) / 3,
+                      width: (screenWidth - 94) / 3,
+                      height: (screenWidth - 94) / 3,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: const Color(0xfff4f4f4),
