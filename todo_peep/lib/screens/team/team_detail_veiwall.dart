@@ -169,7 +169,7 @@ class TeamDetailViewall extends StatelessWidget {
                                   child: Container(
                                     color: Colors.white, // 모달의 배경색
                                     width: screenWidth - 20,
-                                    height: 97 + ((screenWidth - 72 - 32) / 3),
+                                    height: 97 + ((screenWidth - 94) / 3),
                                     child: const Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 20),

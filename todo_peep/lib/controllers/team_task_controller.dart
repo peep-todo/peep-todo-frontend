@@ -9,6 +9,10 @@ class TeamTaskController extends GetxController {
   RxString end = ''.obs;
   RxBool allFinish = false.obs;
 
+  RxString categoryName = "".obs;
+  RxString categoryColor = "".obs;
+  RxBool categoryAllFinished = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -23,6 +27,9 @@ class TeamTaskController extends GetxController {
     start = "".obs;
     end = "".obs;
     allFinish = false.obs;
+    categoryName = "".obs;
+    categoryColor = "".obs;
+    categoryAllFinished = false.obs;
   }
 
   //시작 날짜와 종료날짜 입력시 값 변환
@@ -62,6 +69,24 @@ class TeamTaskController extends GetxController {
       allFinish(true);
     } else {
       allFinish(false);
+    }
+  }
+
+  void onCategoryNameChanged(String value) {
+    categoryName(value);
+    categoryallFinished();
+  }
+
+  void onCategoryColorChanged(String value) {
+    categoryColor(value);
+    categoryallFinished();
+  }
+
+  void categoryallFinished() {
+    if (categoryName != ''.obs && categoryColor != ''.obs) {
+      categoryAllFinished(true);
+    } else {
+      categoryAllFinished(false);
     }
   }
 }
