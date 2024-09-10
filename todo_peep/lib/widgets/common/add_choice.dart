@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class AddChoice extends StatelessWidget {
   const AddChoice({super.key});
@@ -25,41 +26,58 @@ class AddChoice extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             width: screenWidth,
-            height: screenHeight * 0.28 - 32,
+            height: 97 + ((screenWidth - 72 - 32) / 3) - 32,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "무엇을 생성할까요?",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      width: (screenWidth - 72 - 32) / 3,
-                      height: (screenWidth - 72 - 32) / 3,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(0xfff4f4f4),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                              "assets/images/add_choice/category.svg"),
-                          SizedBox(
-                            height: 3,
-                          ),
-                          Text("카테고리"),
-                          Text("생성하기"),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed("/team/add/schedule");
+                      },
+                      child: Container(
+                        width: (screenWidth - 72 - 32) / 3,
+                        height: (screenWidth - 72 - 32) / 3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(0xfff4f4f4),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                                "assets/images/add_choice/category.svg"),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            const Text(
+                              "카테고리",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xff424656),
+                              ),
+                            ),
+                            const Text(
+                              "생성하기",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xff424656),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Container(
@@ -67,18 +85,30 @@ class AddChoice extends StatelessWidget {
                       height: (screenWidth - 72 - 32) / 3,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Color(0xfff4f4f4),
+                        color: const Color(0xfff4f4f4),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
                               "assets/images/add_choice/schedule.svg"),
-                          SizedBox(
+                          const SizedBox(
                             height: 3,
                           ),
-                          Text("일정"),
-                          Text("생성하기"),
+                          const Text(
+                            "일정",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xff424656),
+                            ),
+                          ),
+                          const Text(
+                            "생성하기",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xff424656),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -87,18 +117,30 @@ class AddChoice extends StatelessWidget {
                       height: (screenWidth - 72 - 32) / 3,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Color(0xfff4f4f4),
+                        color: const Color(0xfff4f4f4),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
                               "assets/images/add_choice/friends.svg"),
-                          SizedBox(
+                          const SizedBox(
                             height: 3,
                           ),
-                          Text("프로젝트"),
-                          Text("회의잡기"),
+                          const Text(
+                            "프로젝트",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xff424656),
+                            ),
+                          ),
+                          const Text(
+                            "회의잡기",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xff424656),
+                            ),
+                          ),
                         ],
                       ),
                     ),
