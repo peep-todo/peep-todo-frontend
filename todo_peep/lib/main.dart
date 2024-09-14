@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/team", page: () => Team()),
         GetPage(name: "/team/add", page: () => TeamProjectAdd()),
         GetPage(name: "/team/create", page: () => const ProjectCreate()),
-        GetPage(name: "/team/detail", page: () => const TeamDetail()),
+        GetPage(name: "/team/detail", page: () => TeamDetail()),
         GetPage(name: "/team/detail/viewAll", page: () => TeamDetailViewall()),
         GetPage(name: "/team/add/schedule", page: () => AddSchedule()),
         GetPage(name: "/team/add/category", page: () => AddCategory())
