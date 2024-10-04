@@ -82,6 +82,18 @@ class TaroController extends GetxController {
     print(selectedCards);
   }
 
+  //카드 선택 삭제
+  void selectCardDelete(int selected) {
+    //  RxBool selectCard = false.obs;
+    // RxBool loveFortune = false.obs;
+    // RxBool wealthFortune = false.obs;
+    // RxBool studyFortune = false.obs;
+    // RxString current = "애정운".obs;
+
+    print("asdfaaaaaaaaa");
+    // selectCurrent();
+  }
+
   //카드삭제와 변경
   void changeRandomCard() {
     reset();

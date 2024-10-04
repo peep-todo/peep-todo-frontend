@@ -16,10 +16,10 @@ class _TarotCardCircleState extends State<TarotCardCircle> {
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
-    var radius = screenWidth * 0.38; // 반지름을 0.5 * screenWidth로 변경
-    var cardCount = 25; // 카드의 개수
-    var centerX = screenWidth / 2; // 화면 중심의 X 좌표
-    var centerY = screenWidth / 2; // 화면 중심의 Y 좌표
+    var radius = screenWidth * 0.3; // 반지름을 0.5 * screenWidth로 변경
+    var cardCount = 21; // 카드의 개수
+    var centerX = (screenWidth - 58) / 2; // 화면 중심의 X 좌표
+    var centerY = (screenWidth - 58) / 2; // 화면 중심의 Y 좌표
 
     return Stack(
       children: [

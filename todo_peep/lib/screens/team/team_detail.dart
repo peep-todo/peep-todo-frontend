@@ -153,6 +153,8 @@ class TeamDetail extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xfff4f4f4),
+          scrolledUnderElevation: 0,
+          elevation: 0.0,
         ),
         body: Container(
           width: screenWidth,
@@ -496,6 +498,7 @@ class TeamDetail extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 57),
                 ],
               ),
             ),
