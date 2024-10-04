@@ -9,6 +9,7 @@ import 'package:todo_peep/screens/team/team.dart';
 import 'package:todo_peep/screens/team/team_detail.dart';
 import 'package:todo_peep/screens/team/team_detail_veiwall.dart';
 import 'package:todo_peep/screens/team/team_project_add.dart';
+import 'package:todo_peep/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,14 +18,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'SFPro',
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
         appBarTheme: const AppBarTheme(
           surfaceTintColor: Colors.white,
@@ -36,10 +35,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      //앱 실행과 동시에 인스턴스 생성?
       initialBinding: InitBindings(),
       getPages: [
         GetPage(name: "/", page: () => const App()),
+        GetPage(
+            name: "/splash",
+            page: () => const SplashScreen()), // 스플래시 스크린 경로 추가
         GetPage(name: "/team", page: () => Team()),
         GetPage(name: "/team/add", page: () => TeamProjectAdd()),
         GetPage(name: "/team/create", page: () => const ProjectCreate()),
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/team/add/schedule", page: () => AddSchedule()),
         GetPage(name: "/team/add/category", page: () => AddCategory())
       ],
-      initialRoute: "/",
+      initialRoute: "/splash", // 앱 실행 시 스플래시 스크린으로 시작
     );
   }
 }
