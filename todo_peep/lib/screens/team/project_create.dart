@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:todo_peep/controllers/team_controller.dart';
 import 'package:todo_peep/widgets/team/invite_member.dart';
+import 'package:get/get.dart';
 
-class ProjectCreate extends StatelessWidget {
+class ProjectCreate extends GetView<TeamController> {
   const ProjectCreate({super.key});
 
   void onClickShareUrl(String url) {
@@ -17,8 +19,13 @@ class ProjectCreate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.delete<TeamController>();
+    Get.put(TeamController());
+
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
+
+    final Map<String, dynamic> teamData = Get.arguments as Map<String, dynamic>;
     return Scaffold(
       appBar: AppBar(
         //뒤로가기 버튼 제거
@@ -116,32 +123,29 @@ class ProjectCreate extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 7),
-                GestureDetector(
-                  onTap: () {
-                    onClickShareUrl("www.naver.com입니다. 글까지 넘어가나?");
-                  },
-                  child: Container(
-                    width: screenWidth - 58,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffCFCFCF).withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "https://www.figma.com/design/U23RIAk5W5V",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xff808080),
-                        ),
+                Container(
+                  width: screenWidth - 58,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: const Color(0xffCFCFCF).withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "https://www.figma.com/design/U23RIAk5W5V",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff808080),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 5),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    onClickShareUrl("www.naver.com입니다. 글까지 넘어가나?");
+                  },
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
@@ -165,7 +169,9 @@ class ProjectCreate extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed("/team/detail", arguments: teamData);
+                  },
                   child: Container(
                     decoration: const BoxDecoration(
                         border: Border(

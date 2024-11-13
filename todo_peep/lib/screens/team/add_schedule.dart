@@ -1,18 +1,14 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:todo_peep/controllers/team_controller.dart';
-import 'package:todo_peep/widgets/team/select_date.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:todo_peep/controllers/team_task_controller.dart';
+import 'package:todo_peep/widgets/team/select_date.dart';
 
-enum Type { team, personal }
+class AddSchedule extends GetView<TeamTaskController> {
+  AddSchedule({super.key});
 
-class TeamProjectAdd extends GetView<TeamController> {
-  TeamProjectAdd({super.key});
-
-  final TextEditingController teamNameController = TextEditingController();
-  final TextEditingController projectNameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
+  final List<String> items = ['frontend', 'backend', 'design'];
 
   String? getToday() {
     DateTime now = DateTime.now();
@@ -21,78 +17,148 @@ class TeamProjectAdd extends GetView<TeamController> {
     return strToday;
   }
 
-  late final Map<String, dynamic> teamData;
+  final TextEditingController scheduleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
-    return Obx(
-      () => Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text(
-            "프로젝트 생성",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
+    var screenHeight = MediaQuery.of(context).size.height;
+
+    if (Get.isRegistered<TeamTaskController>()) {
+      Get.delete<TeamTaskController>();
+    }
+    Get.put(TeamTaskController());
+
+    return Obx(() {
+      // ignore: deprecated_member_use
+      return WillPopScope(
+        onWillPop: () async {
+          await Get.toNamed("/team/detail/viewAll");
+          return false;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              "일정 생성",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: Text(
+                  "완료",
+                  style: controller.allFinish == true.obs
+                      ? const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff424656),
+                        )
+                      : const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xffbcbcbc),
+                        ),
+                ),
+              )
+            ],
           ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 29),
-          child: SingleChildScrollView(
-            child: Form(
+          body: Container(
+            width: screenWidth,
+            height: screenHeight,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 29),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 35,
-                  ),
+                  const SizedBox(height: 24),
                   const Text(
-                    "팀 이름",
+                    "카테고리",
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
                       color: Color(0xff808080),
                     ),
                   ),
-                  const SizedBox(height: 3),
-                  TextFormField(
-                    controller: teamNameController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(left: 16),
-                      hintText: "팀 이름을 입력하세요",
-                      hintStyle: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xffcfcfcf),
+                  const SizedBox(height: 6),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 0), // 내부 여백
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color(0xffcfcfcf), // 보더 색상
+                        width: 1.0, // 보더 두께
                       ),
-                      filled: true,
-                      fillColor: const Color(0xfffcfcfc),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10), // 둥근 모서리
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: const Text(
+                          '선택하기',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xffcfcfcf),
+                          ),
+                        ),
+                        items: items
+                            .map((String item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        value: controller.category.value.isEmpty
+                            ? null
+                            : controller.category.value,
+                        onChanged: (String? value) {
+                          controller.onCategoryChanged(value!);
+                        },
+                        iconStyleData: const IconStyleData(
+                            icon: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: Color(0xffcfcfcf),
+                        )),
+                        buttonStyleData: ButtonStyleData(
+                          padding: const EdgeInsets.symmetric(horizontal: 2),
+                          height: 43,
+                          width: screenWidth * 0.25,
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          height: 40,
+                        ),
+                        dropdownStyleData: const DropdownStyleData(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
-                    onChanged: controller.onTeamNameChanged,
                   ),
                   const SizedBox(height: 30),
                   const Text(
-                    "프로젝트 이름",
+                    "일정",
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
                       color: Color(0xff808080),
                     ),
                   ),
                   const SizedBox(height: 3),
                   TextFormField(
-                    controller: projectNameController,
+                    controller: scheduleController,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(left: 16),
-                      hintText: "프로젝트 이름을 입력하세요",
+                      hintText: "일정을 입력하세요",
                       hintStyle: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -108,14 +174,14 @@ class TeamProjectAdd extends GetView<TeamController> {
                     style: const TextStyle(
                       fontSize: 14,
                     ),
-                    onChanged: controller.onProjectNameChanged,
+                    onChanged: controller.onScheduleChanged,
                   ),
                   const SizedBox(height: 30),
                   const Text(
                     "설명",
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
                       color: Color(0xff808080),
                     ),
                   ),
@@ -305,49 +371,7 @@ class TeamProjectAdd extends GetView<TeamController> {
             ),
           ),
         ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.fromLTRB(29, 0, 29, 38), // 하단 버튼 패딩 추가
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: controller.allFinish == false.obs
-                    ? const Color(0xfff5f5f5)
-                    : const Color(0xff424656)),
-            child: TextButton(
-              //모든 내용이 입력되었을경우 생성완료
-              onPressed: () {
-                if (controller.allFinish == true.obs) {
-                  teamData = {
-                    'category': '',
-                    'teamName': controller.teamName.toString(),
-                    'type': Type.team,
-                    'startDate': controller.start.toString(),
-                    'endDate': controller.end.toString(),
-                    'startTime': '',
-                    'endTime': '',
-                    'description': controller.description.toString(),
-                    'color': '',
-                    'isChecked': false,
-                  };
-                  Get.toNamed("/team/create", arguments: teamData);
-                }
-              },
-              child: Text(
-                "생성하기",
-                style: controller.allFinish == false.obs
-                    ? const TextStyle(
-                        fontSize: 16,
-                        color: Color(0xff808080),
-                      )
-                    : const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+      );
+    });
   }
 }

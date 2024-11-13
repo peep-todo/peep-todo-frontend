@@ -1,18 +1,17 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class TeamController extends GetxController {
-  //나의 프로젝트 창에서 모두보기1, 진행중2, 완료된3을 나누어 보기 위하여
-  RxInt select = 1.obs;
-
-  //프로젝트생성에서 값의 여부에따라 하단버튼의 색변경
-  RxString teamName = ''.obs;
-  RxString projectName = ''.obs;
-  RxString description = ''.obs;
+class TeamTaskController extends GetxController {
+  RxString category = "".obs;
+  RxString schedule = "".obs;
+  RxString description = "".obs;
   RxString start = ''.obs;
   RxString end = ''.obs;
-
   RxBool allFinish = false.obs;
+
+  RxString categoryName = "".obs;
+  RxString categoryColor = "".obs;
+  RxBool categoryAllFinished = false.obs;
 
   @override
   void onInit() {
@@ -22,13 +21,15 @@ class TeamController extends GetxController {
   }
 
   void initializeProject() {
-    teamName = ''.obs;
-    projectName = ''.obs;
-    description = ''.obs;
-    start = ''.obs;
-    end = ''.obs;
-
+    category = "".obs;
+    schedule = "".obs;
+    description = "".obs;
+    start = "".obs;
+    end = "".obs;
     allFinish = false.obs;
+    categoryName = "".obs;
+    categoryColor = "".obs;
+    categoryAllFinished = false.obs;
   }
 
   //시작 날짜와 종료날짜 입력시 값 변환
@@ -44,14 +45,13 @@ class TeamController extends GetxController {
     }
   }
 
-  //팀이름 입력시 값 변환
-  void onTeamNameChanged(String value) {
-    teamName(value);
+  void onCategoryChanged(String value) {
+    category(value);
     allFinished();
   }
 
-  void onProjectNameChanged(String value) {
-    projectName(value);
+  void onScheduleChanged(String value) {
+    schedule(value);
     allFinished();
   }
 
@@ -61,14 +61,32 @@ class TeamController extends GetxController {
   }
 
   void allFinished() {
-    if (teamName != ''.obs &&
-        projectName != ''.obs &&
+    if (category != ''.obs &&
+        schedule != ''.obs &&
         description != ''.obs &&
         start != ''.obs &&
         end != ''.obs) {
       allFinish(true);
     } else {
       allFinish(false);
+    }
+  }
+
+  void onCategoryNameChanged(String value) {
+    categoryName(value);
+    categoryallFinished();
+  }
+
+  void onCategoryColorChanged(String value) {
+    categoryColor(value);
+    categoryallFinished();
+  }
+
+  void categoryallFinished() {
+    if (categoryName != ''.obs && categoryColor != ''.obs) {
+      categoryAllFinished(true);
+    } else {
+      categoryAllFinished(false);
     }
   }
 }
