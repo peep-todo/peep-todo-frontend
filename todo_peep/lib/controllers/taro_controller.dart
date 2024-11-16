@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TaroController extends GetxController {
@@ -8,6 +9,14 @@ class TaroController extends GetxController {
   RxBool wealthFortune = false.obs;
   RxBool studyFortune = false.obs;
   RxString current = "애정운".obs;
+  RxInt number = 0.obs;
+  RxBool animation = false.obs;
+  RxBool loveFortuneAnimation = false.obs;
+  RxBool wealthFortuneAnimation = false.obs;
+  RxBool studyFortuneAnimation = false.obs;
+
+  //타로 카드 뒤집는 애니메이션이 끝나고 나서 3장의 카드를 등록활수있도록 수정
+  //뒤집는 애니메이샨의 카드를 위젯을 생성
 
   // 모든 카드 리스트 생성
   final List<String> allCards = [
@@ -58,6 +67,11 @@ class TaroController extends GetxController {
     wealthFortune(false);
     studyFortune(false);
     current("애정운");
+    number(0);
+    animation(false);
+    loveFortuneAnimation(false);
+    wealthFortuneAnimation(false);
+    studyFortuneAnimation(false);
   }
 
   // 3장의 카드를 무작위로 선택하는 함수
@@ -80,18 +94,6 @@ class TaroController extends GetxController {
     }
     selectCard(true);
     print(selectedCards);
-  }
-
-  //카드 선택 삭제
-  void selectCardDelete(int selected) {
-    //  RxBool selectCard = false.obs;
-    // RxBool loveFortune = false.obs;
-    // RxBool wealthFortune = false.obs;
-    // RxBool studyFortune = false.obs;
-    // RxString current = "애정운".obs;
-
-    print("asdfaaaaaaaaa");
-    // selectCurrent();
   }
 
   //카드삭제와 변경
@@ -128,5 +130,15 @@ class TaroController extends GetxController {
             ? current("학업&취업운")
             : current("재물운")
         : current("애정운");
+  }
+
+  //타로 카드 뒤집는 애니메이션을 위한 변수의 값변경
+  void addNumber() {
+    print(number);
+    if (number.toInt() == 4) {
+      return;
+    }
+    number += 2;
+    number(number.toInt());
   }
 }
