@@ -67,306 +67,310 @@ class AddSchedule extends GetView<TeamTaskController> {
               )
             ],
           ),
-          body: Container(
-            width: screenWidth,
-            height: screenHeight,
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 29),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 24),
-                  const Text(
-                    "카테고리",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff808080),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 0), // 내부 여백
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0xffcfcfcf), // 보더 색상
-                        width: 1.0, // 보더 두께
+          body: SingleChildScrollView(
+            child: Container(
+              width: screenWidth,
+              height: screenHeight,
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 29),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 24),
+                    const Text(
+                      "카테고리",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff808080),
                       ),
-                      borderRadius: BorderRadius.circular(10), // 둥근 모서리
                     ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton2<String>(
-                        isExpanded: true,
-                        hint: const Text(
-                          '선택하기',
-                          style: TextStyle(
-                            fontSize: 14,
+                    const SizedBox(height: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 0), // 내부 여백
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color(0xffcfcfcf), // 보더 색상
+                          width: 1.0, // 보더 두께
+                        ),
+                        borderRadius: BorderRadius.circular(10), // 둥근 모서리
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: const Text(
+                            '선택하기',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xffcfcfcf),
+                            ),
+                          ),
+                          items: items
+                              .map((String item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                          value: controller.category.value.isEmpty
+                              ? null
+                              : controller.category.value,
+                          onChanged: (String? value) {
+                            controller.onCategoryChanged(value!);
+                          },
+                          iconStyleData: const IconStyleData(
+                              icon: Icon(
+                            Icons.keyboard_arrow_down,
                             color: Color(0xffcfcfcf),
+                          )),
+                          buttonStyleData: ButtonStyleData(
+                            padding: const EdgeInsets.symmetric(horizontal: 2),
+                            height: 43,
+                            width: screenWidth * 0.25,
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                          ),
+                          dropdownStyleData: const DropdownStyleData(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        items: items
-                            .map((String item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
-                        value: controller.category.value.isEmpty
-                            ? null
-                            : controller.category.value,
-                        onChanged: (String? value) {
-                          controller.onCategoryChanged(value!);
-                        },
-                        iconStyleData: const IconStyleData(
-                            icon: Icon(
-                          Icons.keyboard_arrow_down,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    const Text(
+                      "일정",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff808080),
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    TextFormField(
+                      controller: scheduleController,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(left: 16),
+                        hintText: "일정을 입력하세요",
+                        hintStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
                           color: Color(0xffcfcfcf),
-                        )),
-                        buttonStyleData: ButtonStyleData(
-                          padding: const EdgeInsets.symmetric(horizontal: 2),
-                          height: 43,
-                          width: screenWidth * 0.25,
                         ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          height: 40,
-                        ),
-                        dropdownStyleData: const DropdownStyleData(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                          ),
+                        filled: true,
+                        fillColor: const Color(0xfffcfcfc),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  const Text(
-                    "일정",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff808080),
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                  TextFormField(
-                    controller: scheduleController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(left: 16),
-                      hintText: "일정을 입력하세요",
-                      hintStyle: const TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xffcfcfcf),
                       ),
-                      filled: true,
-                      fillColor: const Color(0xfffcfcfc),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
+                      onChanged: controller.onScheduleChanged,
+                    ),
+                    const SizedBox(height: 30),
+                    const Text(
+                      "설명",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff808080),
                       ),
                     ),
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
-                    onChanged: controller.onScheduleChanged,
-                  ),
-                  const SizedBox(height: 30),
-                  const Text(
-                    "설명",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff808080),
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                  TextField(
-                    controller: descriptionController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.fromLTRB(16, 10, 0, 0),
-                      hintText: "설명을 입력해 주세요",
-                      hintStyle: const TextStyle(
+                    const SizedBox(height: 3),
+                    TextField(
+                      controller: descriptionController,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.fromLTRB(16, 10, 0, 0),
+                        hintText: "설명을 입력해 주세요",
+                        hintStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xffcfcfcf),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xfffcfcfc),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      style: const TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xffcfcfcf),
                       ),
-                      filled: true,
-                      fillColor: const Color(0xfffcfcfc),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 4,
+                      onChanged: controller.onDescriptionChanged,
                     ),
-                    style: const TextStyle(
-                      fontSize: 14,
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "시작 날짜",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff808080),
+                              ),
+                            ),
+                            SizedBox(
+                              width: screenWidth * 0.4,
+                              height: 50,
+                              child: TextFormField(
+                                  controller: dateController,
+                                  decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(left: 16),
+                                    suffixIcon: const Icon(
+                                      Icons.calendar_month_outlined,
+                                      size: 20,
+                                      color: Color(0xffcfcfcf),
+                                    ),
+                                    filled: true,
+                                    fillColor: const Color(0xfffcfcfc),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    hintText: controller.start == ''.obs
+                                        ? getToday()
+                                        : controller.start.toString(),
+                                    hintStyle: controller.start == ''.obs
+                                        ? const TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xffcfcfcf),
+                                          )
+                                        : const TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xff000000),
+                                          ),
+                                  ),
+                                  readOnly: true,
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      backgroundColor: Colors.white,
+                                      isScrollControlled: false,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(20)),
+                                      ),
+                                      context: context,
+                                      builder: (context) {
+                                        return SizedBox(
+                                          width: screenWidth - 20,
+                                          height: 452, // 원하는 높이로 설정
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            child: SelectDate(
+                                              startDate:
+                                                  controller.start.toString(),
+                                              endDate:
+                                                  controller.end.toString(),
+                                              onDateRangeSelected: controller
+                                                  .handleDateRangeSelected,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "종료 날짜",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff808080),
+                              ),
+                            ),
+                            SizedBox(
+                              width: screenWidth * 0.4,
+                              height: 50,
+                              child: TextFormField(
+                                  controller: dateController,
+                                  decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(left: 16),
+                                    suffixIcon: const Icon(
+                                      Icons.calendar_month_outlined,
+                                      size: 20,
+                                      color: Color(0xffcfcfcf),
+                                    ),
+                                    filled: true,
+                                    fillColor: const Color(0xfffcfcfc),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    hintText: controller.end == ''.obs
+                                        ? getToday()
+                                        : controller.end.toString(),
+                                    hintStyle: controller.end == ''.obs
+                                        ? const TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xffcfcfcf),
+                                          )
+                                        : const TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xff000000),
+                                          ),
+                                  ),
+                                  readOnly: true,
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      backgroundColor: Colors.white,
+                                      isScrollControlled: false,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(20)),
+                                      ),
+                                      context: context,
+                                      builder: (context) {
+                                        return SizedBox(
+                                          width: screenWidth - 20,
+                                          height: 452, // 원하는 높이로 설정
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            child: SelectDate(
+                                              startDate:
+                                                  controller.start.toString(),
+                                              endDate:
+                                                  controller.end.toString(),
+                                              onDateRangeSelected: controller
+                                                  .handleDateRangeSelected,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 4,
-                    onChanged: controller.onDescriptionChanged,
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "시작 날짜",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff808080),
-                            ),
-                          ),
-                          SizedBox(
-                            width: screenWidth * 0.4,
-                            height: 50,
-                            child: TextFormField(
-                                controller: dateController,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      const EdgeInsets.only(left: 16),
-                                  suffixIcon: const Icon(
-                                    Icons.calendar_month_outlined,
-                                    size: 20,
-                                    color: Color(0xffcfcfcf),
-                                  ),
-                                  filled: true,
-                                  fillColor: const Color(0xfffcfcfc),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  hintText: controller.start == ''.obs
-                                      ? getToday()
-                                      : controller.start.toString(),
-                                  hintStyle: controller.start == ''.obs
-                                      ? const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xffcfcfcf),
-                                        )
-                                      : const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xff000000),
-                                        ),
-                                ),
-                                readOnly: true,
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    backgroundColor: Colors.white,
-                                    isScrollControlled: false,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(20)),
-                                    ),
-                                    context: context,
-                                    builder: (context) {
-                                      return SizedBox(
-                                        width: screenWidth - 20,
-                                        height: 452, // 원하는 높이로 설정
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: SelectDate(
-                                            startDate:
-                                                controller.start.toString(),
-                                            endDate: controller.end.toString(),
-                                            onDateRangeSelected: controller
-                                                .handleDateRangeSelected,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                }),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "종료 날짜",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff808080),
-                            ),
-                          ),
-                          SizedBox(
-                            width: screenWidth * 0.4,
-                            height: 50,
-                            child: TextFormField(
-                                controller: dateController,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      const EdgeInsets.only(left: 16),
-                                  suffixIcon: const Icon(
-                                    Icons.calendar_month_outlined,
-                                    size: 20,
-                                    color: Color(0xffcfcfcf),
-                                  ),
-                                  filled: true,
-                                  fillColor: const Color(0xfffcfcfc),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  hintText: controller.end == ''.obs
-                                      ? getToday()
-                                      : controller.end.toString(),
-                                  hintStyle: controller.end == ''.obs
-                                      ? const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xffcfcfcf),
-                                        )
-                                      : const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xff000000),
-                                        ),
-                                ),
-                                readOnly: true,
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    backgroundColor: Colors.white,
-                                    isScrollControlled: false,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(20)),
-                                    ),
-                                    context: context,
-                                    builder: (context) {
-                                      return SizedBox(
-                                        width: screenWidth - 20,
-                                        height: 452, // 원하는 높이로 설정
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: SelectDate(
-                                            startDate:
-                                                controller.start.toString(),
-                                            endDate: controller.end.toString(),
-                                            onDateRangeSelected: controller
-                                                .handleDateRangeSelected,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                }),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -18,7 +18,7 @@ class GradientScaffold extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFF3F5FF),
+              Color(0xFFF4F4F4),
               Color.fromRGBO(255, 255, 255, 1),
             ],
           ),
