@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_peep/app.dart';
 import 'package:todo_peep/binding/init_bindings.dart';
+import 'package:todo_peep/screens/taro/taro_result.dart';
 import 'package:todo_peep/screens/team/add_category.dart';
 import 'package:todo_peep/screens/team/add_schedule.dart';
 import 'package:todo_peep/screens/team/project_create.dart';
@@ -46,7 +47,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/team/detail", page: () => TeamDetail()),
         GetPage(name: "/team/detail/viewAll", page: () => TeamDetailViewall()),
         GetPage(name: "/team/add/schedule", page: () => AddSchedule()),
-        GetPage(name: "/team/add/category", page: () => AddCategory())
+        GetPage(name: "/team/add/category", page: () => AddCategory()),
+        GetPage(name: "/taro/result", page: () => const TaroResult())
       ],
       initialRoute: "/",
     );
