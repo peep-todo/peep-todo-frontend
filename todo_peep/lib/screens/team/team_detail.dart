@@ -148,7 +148,7 @@ class TeamDetail extends StatelessWidget {
       onWillPop: () async {
         navController.changeBottomNav(2);
         await Get.toNamed("/");
-        return false;
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(

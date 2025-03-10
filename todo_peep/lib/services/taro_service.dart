@@ -207,28 +207,39 @@ class TaroService {
     }
   }
 
-  Future<String> translateText(String text) async {
-    final Uri url = Uri.parse('https://libretranslate.de/translate');
+  // Future<String> translateText(String text) async {
+  //   const String apiUrl = "https://api.mistral.ai/v1/chat/completions";
 
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'q': text,
-        'source': 'en',
-        'target': 'ko',
-        'format': 'text',
-      }),
-    );
+  //   const String systemContent = '''
+  //     너는 위대한 타로술사야. 사용자가 제공한 영어 해석 결과를 한국어로 번역해줘.
+  //     **응답은 `"해당 카드는..."`으로만 시작해야 해!**
+  //   ''';
 
-    if (response.statusCode == 200) {
-      final decodedResponse = jsonDecode(response.body);
-      print(decodedResponse['translatedText']);
-      return decodedResponse['translatedText'];
-    } else {
-      throw Exception('Failed to translate text');
-    }
-  }
+  //   final response = await http.post(
+  //     Uri.parse(apiUrl),
+  //     headers: {
+  //       "Authorization": "Bearer $apiKey",
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: jsonEncode({
+  //       "model": "mistral-small",
+  //       "messages": [
+  //         {"role": "system", "content": systemContent},
+  //         {"role": "user", "content": text}
+  //       ],
+  //       "max_tokens": 300,
+  //       'temperature': 0.7,
+  //     }),
+  //   );
+
+  //   if (response.statusCode == 200) {
+  //     final decodedResponse = utf8.decode(response.bodyBytes);
+
+  //     final data = json.decode(decodedResponse);
+  //     final fortunes = data['choices'][0]['message']['content'];
+  //     return fortunes;
+  //   } else {
+  //     throw Exception("Failed to load response: ${response.body}");
+  //   }
+  // }
 }

@@ -422,15 +422,17 @@ class _SelectTaroState extends State<SelectTaro> with TickerProviderStateMixin {
                                 if (controller.loveFortune == true.obs &&
                                     controller.wealthFortune == true.obs &&
                                     controller.studyFortune == true.obs) {
-                                  await controller.mistralTaroResult();
-                                  //print(controller.taroResult[2]);
-                                  Get.toNamed(
-                                    "/taro/result",
-                                    arguments: {
-                                      'taroResult': controller.taroResult,
-                                      'selectCard': controller.selectedCards,
-                                    },
-                                  );
+                                  // await controller.mistralTaroResult();
+                                  // //print(controller.taroResult[2]);
+                                  // Get.toNamed(
+                                  //   "/taro/result",
+                                  //   arguments: {
+                                  //     'taroResult': controller.taroResult,
+                                  //     'selectCard': controller.selectedCards,
+                                  //   },
+                                  // );
+
+                                  Get.toNamed("/taro/loading");
                                 }
                               },
                               child: const Text(
