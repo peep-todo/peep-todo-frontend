@@ -49,7 +49,7 @@ class _TaroLoadingState extends State<TaroLoading> {
       if (controller.loadingState.toDouble() / 3 >= 1.0) {
         Future.delayed(const Duration(seconds: 2), () {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Get.toNamed(
+            Get.offNamed(
               "/taro/result",
               arguments: {
                 'taroResult': controller.taroResult,

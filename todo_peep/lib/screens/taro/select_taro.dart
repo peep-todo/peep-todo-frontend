@@ -432,7 +432,7 @@ class _SelectTaroState extends State<SelectTaro> with TickerProviderStateMixin {
                                   //   },
                                   // );
 
-                                  Get.toNamed("/taro/loading");
+                                  Get.offNamed("/taro/loading");
                                 }
                               },
                               child: const Text(
