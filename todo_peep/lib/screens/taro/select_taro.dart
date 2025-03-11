@@ -385,21 +385,23 @@ class _SelectTaroState extends State<SelectTaro> with TickerProviderStateMixin {
                             width: 156,
                             height: 37,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
                               border: Border.all(
-                                color: Colors.black,
+                                color: const Color(0xff808080),
                               ),
                             ),
                             child: TextButton(
                               onPressed: () {
-                                controller.changeRandomCard();
+                                if (isVisible == false) {
+                                  controller.changeRandomCard();
+                                }
                               },
                               child: const Text(
                                 "다시 선택",
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.black,
+                                  color: Color(0xff808080),
                                 ),
                               ),
                             ),
@@ -409,14 +411,30 @@ class _SelectTaroState extends State<SelectTaro> with TickerProviderStateMixin {
                             width: 156,
                             height: 37,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xff424656),
                               border: Border.all(
                                 color: Colors.black,
                               ),
                             ),
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                if (controller.loveFortune == true.obs &&
+                                    controller.wealthFortune == true.obs &&
+                                    controller.studyFortune == true.obs) {
+                                  // await controller.mistralTaroResult();
+                                  // //print(controller.taroResult[2]);
+                                  // Get.toNamed(
+                                  //   "/taro/result",
+                                  //   arguments: {
+                                  //     'taroResult': controller.taroResult,
+                                  //     'selectCard': controller.selectedCards,
+                                  //   },
+                                  // );
+
+                                  Get.toNamed("/taro/loading");
+                                }
+                              },
                               child: const Text(
                                 "결과 보기",
                                 style: TextStyle(

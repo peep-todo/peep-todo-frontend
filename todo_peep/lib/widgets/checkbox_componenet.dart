@@ -65,9 +65,17 @@ class _CheckboxComponenetState extends State<CheckboxComponenet> {
                   : null,
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 12),
           Text(widget.taskData['name']),
           const SizedBox(width: 9),
+          const Text(
+            "담당자: 임유나",
+            style: TextStyle(
+              fontSize: 9,
+              color: Color(0xff808080),
+            ),
+          ),
+          const Spacer(),
           Text(
             widget.taskData['type'] != Type.team
                 ? "${widget.taskData['startDate']} - ${widget.taskData['endDate']}"
@@ -77,7 +85,6 @@ class _CheckboxComponenetState extends State<CheckboxComponenet> {
               color: Color(0xff808080),
             ),
           ),
-          const Spacer(),
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: GestureDetector(

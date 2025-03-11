@@ -148,7 +148,7 @@ class TeamDetail extends StatelessWidget {
       onWillPop: () async {
         navController.changeBottomNav(2);
         await Get.toNamed("/");
-        return false;
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -215,23 +215,23 @@ class TeamDetail extends StatelessWidget {
                           color: Colors.white,
                         ),
                         width: (screenWidth - 68) / 2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(
                               horizontal: 11, vertical: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                "종료날짜",
+                              Text(
+                                "남은 할 일",
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xffb6b6b6),
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                "${teamData['endDate']}",
-                                style: const TextStyle(
+                                "28개 남았습니다",
+                                style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),

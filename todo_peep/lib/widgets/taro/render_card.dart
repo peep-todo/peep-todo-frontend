@@ -98,7 +98,10 @@ class _RenderCardState extends State<RenderCard> with TickerProviderStateMixin {
           opacity: _fadeAnimation.value,
           child: Transform(
             alignment: Alignment.center,
-            transform: Matrix4.rotationY(angle),
+            transform: Matrix4.identity()
+              ..scale(-1.0, 1.0, 1.0) // 좌우 반전
+              ..rotateY(angle), // Y축 회전
+
             child: Transform.rotate(
               angle: controller.selectedCards[controller.number.toInt() + 1] ==
                       true

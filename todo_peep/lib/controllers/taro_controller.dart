@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_peep/services/taro_service.dart';
 
 class TaroController extends GetxController {
+  final TaroService _mistralService = TaroService();
+
   RxBool selectCard = false.obs;
   RxBool loveFortune = false.obs;
   RxBool wealthFortune = false.obs;
@@ -14,6 +18,10 @@ class TaroController extends GetxController {
   RxBool loveFortuneAnimation = false.obs;
   RxBool wealthFortuneAnimation = false.obs;
   RxBool studyFortuneAnimation = false.obs;
+
+  List<String> taroResult = [""].obs;
+  RxDouble loadingState = 0.0.obs;
+  RxBool check = true.obs;
 
   //타로 카드 뒤집는 애니메이션이 끝나고 나서 3장의 카드를 등록활수있도록 수정
   //뒤집는 애니메이샨의 카드를 위젯을 생성
@@ -29,27 +37,27 @@ class TaroController extends GetxController {
     'Judgment', 'The World',
 
     // // 마이너 아르카나 (컵)
-    // 'Ace of Cups', '2 of Cups', '3 of Cups', '4 of Cups', '5 of Cups',
-    // '6 of Cups', '7 of Cups', '8 of Cups', '9 of Cups', '10 of Cups',
-    // 'Page of Cups', 'Knight of Cups', 'Queen of Cups', 'King of Cups',
+    'Ace of Cups', '2 of Cups', '3 of Cups', '4 of Cups', '5 of Cups',
+    '6 of Cups', '7 of Cups', '8 of Cups', '9 of Cups', '10 of Cups',
+    'Page of Cups', 'Knight of Cups', 'Queen of Cups', 'King of Cups',
 
     // // 마이너 아르카나 (펜타클)
-    // 'Ace of Pentacles', '2 of Pentacles', '3 of Pentacles', '4 of Pentacles',
-    // '5 of Pentacles',
-    // '6 of Pentacles', '7 of Pentacles', '8 of Pentacles', '9 of Pentacles',
-    // '10 of Pentacles',
-    // 'Page of Pentacles', 'Knight of Pentacles', 'Queen of Pentacles',
-    // 'King of Pentacles',
+    'Ace of Pentacles', '2 of Pentacles', '3 of Pentacles', '4 of Pentacles',
+    '5 of Pentacles',
+    '6 of Pentacles', '7 of Pentacles', '8 of Pentacles', '9 of Pentacles',
+    '10 of Pentacles',
+    'Page of Pentacles', 'Knight of Pentacles', 'Queen of Pentacles',
+    'King of Pentacles',
 
     // // 마이너 아르카나 (검)
-    // 'Ace of Swords', '2 of Swords', '3 of Swords', '4 of Swords', '5 of Swords',
-    // '6 of Swords', '7 of Swords', '8 of Swords', '9 of Swords', '10 of Swords',
-    // 'Page of Swords', 'Knight of Swords', 'Queen of Swords', 'King of Swords',
+    'Ace of Swords', '2 of Swords', '3 of Swords', '4 of Swords', '5 of Swords',
+    '6 of Swords', '7 of Swords', '8 of Swords', '9 of Swords', '10 of Swords',
+    'Page of Swords', 'Knight of Swords', 'Queen of Swords', 'King of Swords',
 
     // // 마이너 아르카나 (막대기)
-    // 'Ace of Wands', '2 of Wands', '3 of Wands', '4 of Wands', '5 of Wands',
-    // '6 of Wands', '7 of Wands', '8 of Wands', '9 of Wands', '10 of Wands',
-    // 'Page of Wands', 'Knight of Wands', 'Queen of Wands', 'King of Wands',
+    'Ace of Wands', '2 of Wands', '3 of Wands', '4 of Wands', '5 of Wands',
+    '6 of Wands', '7 of Wands', '8 of Wands', '9 of Wands', '10 of Wands',
+    'Page of Wands', 'Knight of Wands', 'Queen of Wands', 'King of Wands',
   ];
 
   RxList<dynamic> selectedCards = [].obs;
@@ -140,5 +148,49 @@ class TaroController extends GetxController {
     }
     number += 2;
     number(number.toInt());
+  }
+
+  RxBool checkResult(String check) {
+    if (check == "false") {
+      return false.obs;
+    }
+    return true.obs;
+  }
+
+  //mistral api 호출하여 타로 결과 얻어오기
+  mistralTaroResult() async {
+    try {
+      loadingState = 0.0.obs;
+      //영어로 애정운 확인하기
+      String enLovefortune = await _mistralService.fetchData_loveFortune(
+          selectedCards[0].toString() + selectedCards[1].toString());
+      loadingState + 1;
+      check = checkResult(enLovefortune);
+      if (check == false.obs) return;
+      //애정운을 한국어로 해석하기
+      //String koLovefortune = await _mistralService.translateText(enLovefortune);
+
+      //영어로 애정운 확인하기
+      String enWealthFortune = await _mistralService.fetchData_wealthFortune(
+          selectedCards[2].toString() + selectedCards[3].toString());
+      loadingState + 1;
+      check = checkResult(enWealthFortune);
+      if (check == false.obs) return;
+      //애정운을 한국어로 해석하기
+      //String koWealthFortune = await _mistralService.translateText(enWealthFortune);
+
+      //영어로 애정운 확인하기
+      String enStudyFortune = await _mistralService.fetchData_studyFortune(
+          selectedCards[4].toString() + selectedCards[5].toString());
+      loadingState + 1;
+      check = checkResult(enStudyFortune);
+      if (check == false.obs) return;
+      //애정운을 한국어로 해석하기
+      //String koStudyFortune = await _mistralService.translateText(enStudyFortune);
+
+      taroResult = [enLovefortune, enWealthFortune, enStudyFortune];
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
