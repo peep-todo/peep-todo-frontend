@@ -21,6 +21,7 @@ class TaroController extends GetxController {
 
   List<String> taroResult = [""].obs;
   RxDouble loadingState = 0.0.obs;
+  RxBool check = true.obs;
 
   //타로 카드 뒤집는 애니메이션이 끝나고 나서 3장의 카드를 등록활수있도록 수정
   //뒤집는 애니메이샨의 카드를 위젯을 생성
@@ -149,6 +150,13 @@ class TaroController extends GetxController {
     number(number.toInt());
   }
 
+  RxBool checkResult(String check) {
+    if (check == "false") {
+      return false.obs;
+    }
+    return true.obs;
+  }
+
   //mistral api 호출하여 타로 결과 얻어오기
   mistralTaroResult() async {
     try {
@@ -157,6 +165,8 @@ class TaroController extends GetxController {
       String enLovefortune = await _mistralService.fetchData_loveFortune(
           selectedCards[0].toString() + selectedCards[1].toString());
       loadingState + 1;
+      check = checkResult(enLovefortune);
+      if (check == false.obs) return;
       //애정운을 한국어로 해석하기
       //String koLovefortune = await _mistralService.translateText(enLovefortune);
 
@@ -164,6 +174,8 @@ class TaroController extends GetxController {
       String enWealthFortune = await _mistralService.fetchData_wealthFortune(
           selectedCards[2].toString() + selectedCards[3].toString());
       loadingState + 1;
+      check = checkResult(enWealthFortune);
+      if (check == false.obs) return;
       //애정운을 한국어로 해석하기
       //String koWealthFortune = await _mistralService.translateText(enWealthFortune);
 
@@ -171,6 +183,8 @@ class TaroController extends GetxController {
       String enStudyFortune = await _mistralService.fetchData_studyFortune(
           selectedCards[4].toString() + selectedCards[5].toString());
       loadingState + 1;
+      check = checkResult(enStudyFortune);
+      if (check == false.obs) return;
       //애정운을 한국어로 해석하기
       //String koStudyFortune = await _mistralService.translateText(enStudyFortune);
 

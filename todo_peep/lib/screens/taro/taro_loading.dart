@@ -60,6 +60,11 @@ class _TaroLoadingState extends State<TaroLoading> {
         });
       }
 
+      //api호출에 실패한 경우
+      if (controller.check == false.obs) {
+        showErrorDialog();
+      }
+
       return Scaffold(
         body: Container(
           width: screenWidth,
@@ -141,6 +146,35 @@ class _TaroLoadingState extends State<TaroLoading> {
             ],
           ),
         ),
+      );
+    });
+  }
+}
+
+bool isDialogOpen = false;
+
+void showErrorDialog() {
+  if (!isDialogOpen) {
+    // 다이얼로그가 이미 열려 있지 않으면
+    isDialogOpen = true; // 다이얼로그 열린 상태로 설정
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // 다이얼로그 띄우기
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Error'),
+          content: const Text('너무 많은 요청으로 실패하였습니다. 다시 시도해주세요'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                isDialogOpen = false; // 다이얼로그 닫히면 상태 변경
+                Get.back(); // 다이얼로그 닫기
+                Get.offNamed('/');
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        ),
+        barrierDismissible: false, // 화면 외부 클릭 시 다이얼로그 닫히지 않도록 설정
       );
     });
   }

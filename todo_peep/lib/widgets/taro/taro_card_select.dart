@@ -53,7 +53,8 @@ class TaroCardSelect extends GetView<TaroController> {
                 child: Image.asset(
                   "assets/images/taro/taroCard/${controller.selectedCards[number]}.png",
                   fit: BoxFit.fill,
-                )),
+                ),
+              ),
       ),
     );
   }
