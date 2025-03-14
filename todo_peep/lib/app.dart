@@ -7,6 +7,8 @@ import 'package:todo_peep/screens/taro/taro_loading.dart';
 import 'package:todo_peep/screens/taro/taro_result.dart';
 import 'package:todo_peep/screens/team/team.dart';
 
+import 'package:todo_peep/screens/detaillist/detaillist.dart';
+
 //StatelessWidget대신 GetView<BottomNavController> 를 상속받아 BottomNavController의
 //변수 및 메소드에 접근가능하도록
 class App extends GetView<BottomNavController> {
@@ -21,7 +23,7 @@ class App extends GetView<BottomNavController> {
           children: [
             //일단은 텍스트 여기서 너희가 만든 페이지를 자식으로 변경 ㄱㄱ
             const Text("data"),
-            const Text("data"),
+            DetailList(), //세부일정
             Team(),
             const SelectTaro(),
             const Text("data"),
