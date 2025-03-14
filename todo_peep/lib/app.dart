@@ -3,8 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:todo_peep/controllers/bottom_nav_controller.dart';
 import 'package:todo_peep/screens/taro/select_taro.dart';
-import 'package:todo_peep/screens/taro/taro_loading.dart';
-import 'package:todo_peep/screens/taro/taro_result.dart';
 import 'package:todo_peep/screens/team/team.dart';
 
 //StatelessWidget대신 GetView<BottomNavController> 를 상속받아 BottomNavController의

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:todo_peep/widgets/checkbox_componenet.dart';
 import 'package:todo_peep/widgets/common/add_choice.dart';
@@ -129,6 +130,8 @@ class TeamDetailViewall extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xfff4f4f4),
+          scrolledUnderElevation: 0,
+          elevation: 0.0,
         ),
         body: Container(
           width: screenWidth,
@@ -223,7 +226,7 @@ class TeamDetailViewall extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.circle,
-                                  size: 8,
+                                  size: 15,
                                   color: taskData[index]['color'] != null
                                       ? Color(int.parse(
                                           '0xff${taskData[index]['color']}'))
@@ -235,6 +238,15 @@ class TeamDetailViewall extends StatelessWidget {
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: SvgPicture.asset(
+                                    "assets/images/common/pin.svg",
+                                    width: 15,
+                                    height: 15,
                                   ),
                                 ),
                               ],
