@@ -14,32 +14,32 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
   DateTime selectedDate = DateTime.now();
   int weekOffset = 1000;
   late PageController _pageController;
-  final Map<int, GlobalKey> dateKeys = {}; // 각 날짜의 GlobalKey 저장
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
+    // _pageController 초기화
     _pageController = PageController(initialPage: weekOffset);
 
+    /// 페이지 처음 실행될 때 당일 날짜로 선택
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // PageView가 실제로 렌더링된 후에만 _pageController가 연결되도록 확인
       if (_pageController.hasClients) {
-        _pageController.jumpToPage(weekOffset);
+        _pageController.jumpToPage(weekOffset); // 페이지 이동
       } else {
-        Future.delayed(const Duration(milliseconds: 100), () {
+        // 만약 PageView가 아직 렌더링되지 않았다면 다시 시도
+        Future.delayed(Duration(milliseconds: 100), () {
           if (_pageController.hasClients) {
-            _pageController.jumpToPage(weekOffset);
+            _pageController.jumpToPage(weekOffset); // 페이지 이동
           }
         });
       }
     });
-
-    // 날짜별 GlobalKey 초기화
-    for (int i = 0; i < 7; i++) {
-      dateKeys[i] = GlobalKey();
-    }
   }
 
+  /// 앱이 다시 활성화될 때(다른 페이지 갔다가 다시 돌아올 때)도 당일 날짜로 초기화
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -47,20 +47,22 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
     }
   }
 
+  /// 페이지로 돌아오면 당일 날짜로 선택되도록 설정
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _resetToToday();
   }
 
+  /// 오늘 날짜로 리셋하는 함수
   void _resetToToday() {
     setState(() {
       today = DateTime.now();
       selectedDate = today;
-      weekOffset = 1000;
+      weekOffset = 1000; // 오늘 날짜가 포함된 주로 설정
     });
     if (_pageController.hasClients) {
-      _pageController.jumpToPage(weekOffset);
+      _pageController.jumpToPage(weekOffset); // 강제 이동
     }
   }
 
@@ -71,14 +73,14 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  /// 현재 주의 시작 날짜 구하기 (일요일 기준)
+  // 현재 주의 시작 날짜 구하기 (일요일 기준)
   DateTime get currentWeekStart {
     return today
         .subtract(Duration(days: today.weekday % 7))
         .add(Duration(days: (weekOffset - 1000) * 7));
   }
 
-  /// 주간 날짜 리스트 생성
+  // 주간 날짜 리스트 생성
   List<DateTime> get weekDates {
     return List.generate(
         7, (index) => currentWeekStart.add(Duration(days: index)));
@@ -90,113 +92,149 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
     });
   }
 
-  /// 선택된 날짜의 위치를 찾아 반환하는 함수
-  Offset? getSelectedDateOffset() {
-    for (int i = 0; i < 7; i++) {
-      if (weekDates[i] == selectedDate) {
-        final RenderBox? renderBox =
-            dateKeys[i]!.currentContext?.findRenderObject() as RenderBox?;
-        if (renderBox != null) {
-          final position = renderBox.localToGlobal(Offset.zero);
-          return position;
-        }
-      }
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     String month = DateFormat.MMMM('ko').format(currentWeekStart);
     String fullDate = DateFormat('yyyy년 MM월 dd일', 'ko').format(selectedDate);
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFFf4f4f4), Color.fromRGBO(255, 255, 255, 1)],
-              ),
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFf4f4f4), Color.fromRGBO(255, 255, 255, 1)],
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(29, 70, 29, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          month,
-                          style: const TextStyle(
-                            fontSize: 32,
-                            color: Color(0xff595959),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          fullDate,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Color(0xff929292),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Stack(
-                  children: [
-                    // 선택된 날짜를 기준으로 네이비 박스 추가
-                    Positioned(
-                      top: getSelectedDateOffset()?.dy ?? 0 - 50,
-                      left: getSelectedDateOffset()?.dx ?? 0 - 5,
-                      child: Container(
-                        width: 50,
-                        height: 100, // 요일까지 덮도록 설정
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF424656),
-                          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(29, 70, 29, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        month,
+                        style: const TextStyle(
+                          fontSize: 32,
+                          color: Color(0xff595959),
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
+                      const SizedBox(height: 2),
+                      Text(
+                        fullDate,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Color(0xff929292),
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Get.toNamed("/team/add");
+                    },
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      backgroundColor: Colors.white,
+                      minimumSize: const Size(63, 33),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                     ),
-                    Column(
-                      children: [
-                        Row(
+                    child: const Text(
+                      "+ Add",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(7, (dayIndex) {
+                      return Container(
+                        width: 40,
+                        alignment: Alignment.center,
+                        child: Text(
+                          ['일', '월', '화', '수', '목', '금', '토'][dayIndex],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 5),
+                  SizedBox(
+                    height: 50,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      onPageChanged: updateWeek,
+                      itemBuilder: (context, index) {
+                        return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(7, (dayIndex) {
-                            return Container(
-                              width: 40,
-                              alignment: Alignment.center,
-                              child: Text(
-                                ['일', '월', '화', '수', '목', '금', '토'][dayIndex],
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
+                            DateTime date = weekDates[dayIndex];
+                            bool isSelected = date.year == selectedDate.year &&
+                                date.month == selectedDate.month &&
+                                date.day == selectedDate.day;
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedDate = date;
+                                });
+                              },
+                              child: Container(
+                                width: 40,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? const Color(0xFF424656)
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      '${date.day}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: isSelected
+                                            ? Colors.white
+                                            : Color(0xFF808080),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             );
                           }),
-                        ),
-                        const SizedBox(height: 5),
-                      ],
+                        );
+                      },
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
