@@ -151,14 +151,14 @@ class TeamDetail extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xfff4f4f4),
+          backgroundColor: const Color(0xfffbfbfb),
           scrolledUnderElevation: 0,
           elevation: 0.0,
         ),
         body: Container(
           width: screenWidth,
           height: screenHeight,
-          color: const Color(0xfff4f4f4),
+          color: const Color(0xfffbfbfb),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 29),
             child: Column(
