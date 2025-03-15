@@ -9,7 +9,7 @@ class TaroResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
-    var screenHeight = MediaQuery.of(context).size.height;
+    //var screenHeight = MediaQuery.of(context).size.height;
     var arguments = Get.arguments;
     var taroResult = arguments['taroResult']; // 타로 결과 값
     var selectCard = arguments['selectCard']; // 선택된 카드들
@@ -29,8 +29,8 @@ class TaroResult extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () async {
-                navController.changeBottomNav(3); // 바텀 네비게이션 인덱스를 2로 변경
-                await Get.offNamed("/");
+                navController.changeBottomNav(3); // 바텀 네비게이션 인덱스 변경
+                Get.until((route) => Get.currentRoute == "/");
               },
               child: const Text(
                 "완료",
