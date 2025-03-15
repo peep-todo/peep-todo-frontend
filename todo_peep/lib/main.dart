@@ -56,7 +56,10 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/team/add/category", page: () => AddCategory()),
         GetPage(name: "/taro/result", page: () => TaroResult()),
         GetPage(name: "/taro/loading", page: () => const TaroLoading()),
-        GetPage(name: "/detaillist", page: () => DetailList()),
+        GetPage(name: "/detaillist", page: () => const DetailList()),
+        // GetPage(
+        //     name: "/splash",
+        //     page: () => const SplashScreen()), // 스플래시 스크린 경로 추가
       ],
       initialRoute: "/",
     );
