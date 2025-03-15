@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'add_day.dart';
 
-class MainClaendar extends StatelessWidget {
-  const MainClaendar({super.key});
+class MainCalendar extends StatelessWidget {
+  const MainCalendar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,91 +28,146 @@ class MainClaendar extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 월 표시
+              const SizedBox(height: 40),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
-                  '9월', // 월 표시 예시
+                  '${DateTime.now().month}월',
                   style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
+                    color: Color(0xFF595959),
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              // 캘린더
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white, // 캘린더 배경색
-                    borderRadius: BorderRadius.circular(20), // 테두리 반경
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: TableCalendar(
-                    locale: 'ko_KR', // 한국어 설정
-                    focusedDay: DateTime.now(), // 현재 날짜로 설정
-                    firstDay:
-                        DateTime.utc(2020, 1, 1), // 캘린더 시작일 (2020년 1월 1일 예시)
-                    lastDay: DateTime.utc(
-                        2030, 12, 31), // 캘린더 종료일 (2030년 12월 31일 예시)
-                    headerStyle: HeaderStyle(
-                      titleTextStyle: const TextStyle(
+              const SizedBox(height: 21),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.check_box, color: Colors.orange, size: 22),
+                    SizedBox(width: 5),
+                    Text(
+                      "D-DAY",
+                      style: TextStyle(
                         color: Colors.black,
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.w400,
                       ),
-                      formatButtonVisible: false,
                     ),
-                    calendarStyle: CalendarStyle(
-                      todayDecoration: BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle,
-                      ),
-                      selectedDecoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      weekendTextStyle: const TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                    daysOfWeekStyle: DaysOfWeekStyle(
-                      weekendStyle: const TextStyle(
-                        color: Colors.black,
-                      ),
-                      weekdayStyle: const TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                    onDaySelected: (selectedDay, focusedDay) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(
-                                DateFormat('yyyy-MM-dd').format(selectedDay)),
-                            actions: [
-                              TextButton(
-                                child: const Text('확인'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 90,
+                child: Row(
+                  children: [
+                    _buildDdayBox("D+27", "컴활필기시험"),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddDdayScreen()),
                           );
                         },
-                      );
-                    },
+                        child: _buildAddDdayBox(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDdayBox(String days, String title) {
+    return Container(
+      width: 184,
+      height: 82,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: DottedBorder(
+              color: const Color(0xFFC6C8C8),
+              borderType: BorderType.Circle,
+              dashPattern: const [3, 2],
+              child: Container(
+                width: 30,
+                height: 30,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    'assets/images/calendar/image-add.svg',
+                    width: 20,
+                    height: 20,
+                    fit: BoxFit.cover,
+                    color: const Color(0xFFC6C8C8),
                   ),
                 ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  days,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFFC6C8C8),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  title,
+                  style: const TextStyle(fontSize: 12, color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddDdayBox() {
+    return SizedBox(
+      width: 184,
+      height: 82,
+      child: DottedBorder(
+        color: const Color(0xFFC6C8C8),
+        borderType: BorderType.RRect,
+        radius: const Radius.circular(12),
+        dashPattern: const [3, 2],
+        child: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.add, color: Color(0xFFC6C8C8), size: 16),
+              SizedBox(width: 4),
+              Text(
+                "디데이를 추가해보세요",
+                style: TextStyle(color: Color(0xFFC6C8C8), fontSize: 12),
               ),
             ],
           ),

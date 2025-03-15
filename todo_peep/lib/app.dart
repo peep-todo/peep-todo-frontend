@@ -19,7 +19,7 @@ class App extends GetView<BottomNavController> {
           index: controller.pageIndex.value,
           children: [
             //일단은 텍스트 여기서 너희가 만든 페이지를 자식으로 변경 ㄱㄱ
-            MainClaendar(),
+            const MainCalendar(),
             const Text("data"),
             Team(),
             const SelectTaro(),
