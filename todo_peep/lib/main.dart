@@ -11,8 +11,13 @@ import 'package:todo_peep/screens/team/team.dart';
 import 'package:todo_peep/screens/team/team_detail.dart';
 import 'package:todo_peep/screens/team/team_detail_veiwall.dart';
 import 'package:todo_peep/screens/team/team_project_add.dart';
+import 'package:todo_peep/screens/detaillist/detaillist.dart';
+import 'package:intl/date_symbol_data_local.dart'; // 추가
 
-void main() {
+void main() async {
+  // 로케일 데이터 초기화
+  await initializeDateFormatting('ko_KR', null);
+
   runApp(const MyApp());
 }
 
@@ -50,7 +55,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/team/add/schedule", page: () => AddSchedule()),
         GetPage(name: "/team/add/category", page: () => AddCategory()),
         GetPage(name: "/taro/result", page: () => TaroResult()),
-        GetPage(name: "/taro/loading", page: () => const TaroLoading())
+        GetPage(name: "/taro/loading", page: () => const TaroLoading()),
+        GetPage(name: "/detaillist", page: () => DetailList()),
       ],
       initialRoute: "/",
     );
