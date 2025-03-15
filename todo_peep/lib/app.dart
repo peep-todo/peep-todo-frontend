@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:todo_peep/controllers/bottom_nav_controller.dart';
+import 'package:todo_peep/screens/calendar/main_claendar.dart';
 import 'package:todo_peep/screens/taro/select_taro.dart';
 import 'package:todo_peep/screens/taro/taro_loading.dart';
 import 'package:todo_peep/screens/taro/taro_result.dart';
@@ -21,8 +22,7 @@ class App extends GetView<BottomNavController> {
         body: IndexedStack(
           index: controller.pageIndex.value,
           children: [
-            //일단은 텍스트 여기서 너희가 만든 페이지를 자식으로 변경 ㄱㄱ
-            const Text("data"),
+            const MainCalendar(),
             const DetailList(), //세부일정
             Team(),
             const SelectTaro(),

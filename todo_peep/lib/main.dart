@@ -57,6 +57,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/taro/result", page: () => TaroResult()),
         GetPage(name: "/taro/loading", page: () => const TaroLoading()),
         GetPage(name: "/detaillist", page: () => const DetailList()),
+        // GetPage(
+        //     name: "/splash",
+        //     page: () => const SplashScreen()), // 스플래시 스크린 경로 추가
       ],
       initialRoute: "/",
     );
