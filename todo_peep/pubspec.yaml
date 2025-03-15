@@ -75,6 +75,7 @@ flutter:
         - assets/images/
         - assets/images/team/
         - assets/images/taro/
+        - assets/images/common/
         - assets/images/add_choice/
         - assets/images/taro/taroCard/
         - assets/images/calendar/
