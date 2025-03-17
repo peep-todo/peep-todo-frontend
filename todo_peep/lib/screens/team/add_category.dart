@@ -41,6 +41,15 @@ class AddCategory extends GetView<TeamTaskController> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 24), // 뒤로가기 버튼 패딩 조절
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () async {
+                  await Get.toNamed("/team/detail/viewAll");
+                },
+              ),
+            ),
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 24),
@@ -145,6 +154,44 @@ class AddCategory extends GetView<TeamTaskController> {
                       fontSize: 14,
                     ),
                     onChanged: controller.onCategoryNameChanged,
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: controller.onCategoryPinToggle,
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle, // 체크박스 모양 (사각형)
+                            borderRadius: BorderRadius.circular(5), // 모서리 둥글기
+                            border: Border.all(
+                              color: controller.categoryPin.value
+                                  ? const Color(0xff424656)
+                                  : const Color(0xffD1D1D6), // 체크 여부에 따른 테두리 색상
+                              width: 1,
+                            ),
+                            color: controller.categoryPin.value
+                                ? const Color(0xff424656)
+                                : Colors.white, // 체크 여부에 따른 배경색
+                          ),
+                          child: controller.categoryPin.value
+                              ? const Icon(Icons.check,
+                                  size: 18, color: Colors.white)
+                              : null,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const Text(
+                        "카테고리 상단 고정",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff525252),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

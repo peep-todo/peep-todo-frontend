@@ -3,8 +3,9 @@ import 'package:intl/intl.dart';
 
 class TeamTaskController extends GetxController {
   RxString category = "".obs;
+  RxBool categoryPin = false.obs;
   RxString schedule = "".obs;
-  RxString description = "".obs;
+  RxString assignedTo = "".obs;
   RxString start = ''.obs;
   RxString end = ''.obs;
   RxBool allFinish = false.obs;
@@ -22,8 +23,9 @@ class TeamTaskController extends GetxController {
 
   void initializeProject() {
     category = "".obs;
+    categoryPin = false.obs;
     schedule = "".obs;
-    description = "".obs;
+    assignedTo = "".obs;
     start = "".obs;
     end = "".obs;
     allFinish = false.obs;
@@ -55,15 +57,15 @@ class TeamTaskController extends GetxController {
     allFinished();
   }
 
-  void onDescriptionChanged(String value) {
-    description(value);
+  void onAssignedToChanged(String value) {
+    assignedTo(value);
     allFinished();
   }
 
   void allFinished() {
     if (category != ''.obs &&
         schedule != ''.obs &&
-        description != ''.obs &&
+        assignedTo != ''.obs &&
         start != ''.obs &&
         end != ''.obs) {
       allFinish(true);
@@ -80,6 +82,11 @@ class TeamTaskController extends GetxController {
   void onCategoryColorChanged(String value) {
     categoryColor(value);
     categoryallFinished();
+  }
+
+  void onCategoryPinToggle() {
+    categoryPin.value = !categoryPin.value;
+    allFinished();
   }
 
   void categoryallFinished() {
