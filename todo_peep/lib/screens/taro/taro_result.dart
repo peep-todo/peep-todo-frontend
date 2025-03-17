@@ -29,8 +29,8 @@ class TaroResult extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () async {
-                navController.changeBottomNav(3); // 바텀 네비게이션 인덱스를 2로 변경
-                await Get.offNamed("/");
+                navController.changeBottomNav(3); // 바텀 네비게이션 인덱스 변경
+                Get.until((route) => Get.currentRoute == "/");
               },
               child: const Text(
                 "완료",
