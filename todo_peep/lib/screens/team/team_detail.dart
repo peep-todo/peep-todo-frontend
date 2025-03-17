@@ -14,20 +14,20 @@ class TeamDetail extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    final Map<String, dynamic> teamData = Get.arguments as Map<String, dynamic>;
+    //final Map<String, dynamic> teamData = Get.arguments as Map<String, dynamic>;
 
-    // final Map<String, dynamic> teamData = {
-    //   'category': '',
-    //   'teamName': "",
-    //   'type': "Type.team",
-    //   'startDate': "controller.start.toString()",
-    //   'endDate': "controller.end.toString()",
-    //   'startTime': '',
-    //   'endTime': '',
-    //   'description': "controller.description.toString()",
-    //   'color': '',
-    //   'isChecked': false,
-    // };
+    final Map<String, dynamic> teamData = {
+      'category': '',
+      'teamName': "",
+      'type': "Type.team",
+      'startDate': "controller.start.toString()",
+      'endDate': "controller.end.toString()",
+      'startTime': '',
+      'endTime': '',
+      'description': "controller.description.toString()",
+      'color': '',
+      'isChecked': false,
+    };
 
     List<Map<String, dynamic>> taskData = [
       {
