@@ -36,6 +36,15 @@ class TeamProjectAdd extends GetView<TeamController> {
               fontWeight: FontWeight.w700,
             ),
           ),
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 24), // 뒤로가기 버튼 패딩 조절
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 29),

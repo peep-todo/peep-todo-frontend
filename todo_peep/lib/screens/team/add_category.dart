@@ -41,6 +41,15 @@ class AddCategory extends GetView<TeamTaskController> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 24), // 뒤로가기 버튼 패딩 조절
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () async {
+                  await Get.toNamed("/team/detail/viewAll");
+                },
+              ),
+            ),
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 24),

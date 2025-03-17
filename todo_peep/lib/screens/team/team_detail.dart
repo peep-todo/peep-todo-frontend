@@ -154,6 +154,15 @@ class TeamDetail extends StatelessWidget {
           backgroundColor: const Color(0xfffbfbfb),
           scrolledUnderElevation: 0,
           elevation: 0.0,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 24), // 뒤로가기 버튼 패딩 조절
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ),
         ),
         body: Container(
           width: screenWidth,
