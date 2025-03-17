@@ -158,8 +158,9 @@ class TeamDetail extends StatelessWidget {
             padding: const EdgeInsets.only(left: 24), // 뒤로가기 버튼 패딩 조절
             child: IconButton(
               icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Get.back();
+              onPressed: () async {
+                navController.changeBottomNav(2);
+                await Get.toNamed("/");
               },
             ),
           ),
