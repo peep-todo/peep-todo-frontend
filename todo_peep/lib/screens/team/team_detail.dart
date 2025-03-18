@@ -14,20 +14,20 @@ class TeamDetail extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    final Map<String, dynamic> teamData = Get.arguments as Map<String, dynamic>;
+    //final Map<String, dynamic> teamData = Get.arguments as Map<String, dynamic>;
 
-    // final Map<String, dynamic> teamData = {
-    //   'category': '',
-    //   'teamName': "",
-    //   'type': "Type.team",
-    //   'startDate': "controller.start.toString()",
-    //   'endDate': "controller.end.toString()",
-    //   'startTime': '',
-    //   'endTime': '',
-    //   'description': "controller.description.toString()",
-    //   'color': '',
-    //   'isChecked': false,
-    // };
+    final Map<String, dynamic> teamData = {
+      'category': '',
+      'teamName': "",
+      'type': "Type.team",
+      'startDate': "controller.start.toString()",
+      'endDate': "controller.end.toString()",
+      'startTime': '',
+      'endTime': '',
+      'description': "controller.description.toString()",
+      'color': '',
+      'isChecked': false,
+    };
 
     List<Map<String, dynamic>> taskData = [
       {
@@ -151,14 +151,24 @@ class TeamDetail extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xfff4f4f4),
+          backgroundColor: const Color(0xfffbfbfb),
           scrolledUnderElevation: 0,
           elevation: 0.0,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 24), // 뒤로가기 버튼 패딩 조절
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () async {
+                navController.changeBottomNav(2);
+                await Get.toNamed("/");
+              },
+            ),
+          ),
         ),
         body: Container(
           width: screenWidth,
           height: screenHeight,
-          color: const Color(0xfff4f4f4),
+          color: const Color(0xfffbfbfb),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 29),
             child: Column(
