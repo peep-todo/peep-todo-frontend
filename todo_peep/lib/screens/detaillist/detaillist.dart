@@ -15,31 +15,31 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
   int weekOffset = 1000;
   late PageController _pageController;
 
+  bool hasSchedule = false; // 일정이 추가되지 않았는지 여부
+
+  double dateGap = 8.0; // 날짜 간의 간격을 설정할 수 있는 변수 추가
+  double boxWidth = 40.0; // 날짜 박스의 너비를 설정할 수 있는 변수 추가
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    // _pageController 초기화
     _pageController = PageController(initialPage: weekOffset);
 
-    /// 페이지 처음 실행될 때 당일 날짜로 선택
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // PageView가 실제로 렌더링된 후에만 _pageController가 연결되도록 확인
       if (_pageController.hasClients) {
-        _pageController.jumpToPage(weekOffset); // 페이지 이동
+        _pageController.jumpToPage(weekOffset);
       } else {
-        // 만약 PageView가 아직 렌더링되지 않았다면 다시 시도
-        Future.delayed(Duration(milliseconds: 100), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
           if (_pageController.hasClients) {
-            _pageController.jumpToPage(weekOffset); // 페이지 이동
+            _pageController.jumpToPage(weekOffset);
           }
         });
       }
     });
   }
 
-  /// 앱이 다시 활성화될 때(다른 페이지 갔다가 다시 돌아올 때)도 당일 날짜로 초기화
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -47,22 +47,20 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
     }
   }
 
-  /// 페이지로 돌아오면 당일 날짜로 선택되도록 설정
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _resetToToday();
   }
 
-  /// 오늘 날짜로 리셋하는 함수
   void _resetToToday() {
     setState(() {
       today = DateTime.now();
       selectedDate = today;
-      weekOffset = 1000; // 오늘 날짜가 포함된 주로 설정
+      weekOffset = 1000;
     });
     if (_pageController.hasClients) {
-      _pageController.jumpToPage(weekOffset); // 강제 이동
+      _pageController.jumpToPage(weekOffset);
     }
   }
 
@@ -73,14 +71,12 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  // 현재 주의 시작 날짜 구하기 (일요일 기준)
   DateTime get currentWeekStart {
     return today
         .subtract(Duration(days: today.weekday % 7))
         .add(Duration(days: (weekOffset - 1000) * 7));
   }
 
-  // 주간 날짜 리스트 생성
   List<DateTime> get weekDates {
     return List.generate(
         7, (index) => currentWeekStart.add(Duration(days: index)));
@@ -111,6 +107,7 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              /// 상단 날짜 정보
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -138,7 +135,9 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
                   ),
                   TextButton(
                     onPressed: () {
-                      Get.toNamed("/team/add");
+                      setState(() {
+                        hasSchedule = true;
+                      });
                     },
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -160,25 +159,34 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
                 ],
               ),
               const SizedBox(height: 20),
+
+              /// 요일 + 날짜 선택 (고정된 요일 + 스크롤되는 날짜)
               Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  // 요일 (고정된 부분)
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(7, (dayIndex) {
-                      return Container(
-                        width: 40,
-                        alignment: Alignment.center,
-                        child: Text(
-                          ['일', '월', '화', '수', '목', '금', '토'][dayIndex],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      );
-                    }),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: ['일', '월', '화', '수', '목', '금', '토']
+                        .map((day) => SizedBox(
+                              width: 50, // 날짜와 동일한 크기로 통일
+                              child: Center(
+                                child: Text(
+                                  day,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    color: Color(0xFF808080),
+                                  ),
+                                ),
+                              ),
+                            ))
+                        .toList(),
                   ),
-                  const SizedBox(height: 5),
+
+                  const SizedBox(height: 6), // 요일과 날짜 간격 조정
+
+                  // 날짜 (스크롤 가능)
                   SizedBox(
                     height: 50,
                     child: PageView.builder(
@@ -186,42 +194,44 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
                       onPageChanged: updateWeek,
                       itemBuilder: (context, index) {
                         return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(7, (dayIndex) {
                             DateTime date = weekDates[dayIndex];
                             bool isSelected = date.year == selectedDate.year &&
                                 date.month == selectedDate.month &&
                                 date.day == selectedDate.day;
+
                             return GestureDetector(
                               onTap: () {
                                 setState(() {
                                   selectedDate = date;
                                 });
                               },
-                              child: Container(
-                                width: 40,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
-                                decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? const Color(0xFF424656)
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
+                              child: SizedBox(
+                                width: 50, // 요일과 동일한 너비 유지
+                                child: Center(
+                                  // 내부 컨테이너를 중앙 정렬
+                                  child: Container(
+                                    width: isSelected ? 40 : 50,
+                                    height: 40,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? const Color(0xFF424656)
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
                                       '${date.day}',
                                       style: TextStyle(
                                         fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.w400,
                                         color: isSelected
                                             ? Colors.white
-                                            : Color(0xFF808080),
+                                            : const Color(0xFF808080),
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             );
@@ -232,6 +242,33 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
                   ),
                 ],
               ),
+
+              // 일정이 없을 때 보여줄 이미지
+              if (!hasSchedule)
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/detaillist/detailMain.png',
+                          height: 133,
+                          width: 165,
+                        ),
+                        const SizedBox(height: 10), // 이미지와 텍스트 사이의 간격
+                        const Text(
+                          '일정을 추가해주세요',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFFCFCFCF),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
