@@ -63,6 +63,7 @@ class TeamTaskController extends GetxController {
   }
 
   void allFinished() {
+    print("$category ㅎ포 $schedule $assignedTo $start $end");
     if (category != ''.obs &&
         schedule != ''.obs &&
         assignedTo != ''.obs &&
@@ -86,7 +87,6 @@ class TeamTaskController extends GetxController {
 
   void onCategoryPinToggle() {
     categoryPin.value = !categoryPin.value;
-    allFinished();
   }
 
   void categoryallFinished() {

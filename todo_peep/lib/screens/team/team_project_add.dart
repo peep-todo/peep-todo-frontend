@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_peep/controllers/team_controller.dart';
+import 'package:todo_peep/services/team_service.dart';
 import 'package:todo_peep/widgets/team/select_date.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +24,39 @@ class TeamProjectAdd extends GetView<TeamController> {
     return strToday;
   }
 
-  late final Map<String, dynamic> teamData;
+  late final Map<String, String> teamData;
+
+  void _createTeam() async {
+    if (controller.allFinish.value) {
+      final teamData = {
+        'name': controller.teamName.toString(),
+        'projectName': controller.projectName.toString(),
+        'description': controller.description.toString(),
+        'startDate': controller.start.toString(),
+        'endDate': controller.end.toString(),
+      };
+
+      try {
+        final response =
+            await TeamService().createTeamProject(teamData: teamData);
+
+        // 서버 응답에서 resultData 추출
+        if (response['resultData'] != null) {
+          final data = {
+            'teamData': teamData,
+            'inviteUrl': response['resultData'],
+          };
+
+          Get.toNamed("/team/create", arguments: data);
+        } else {
+          print("팀 생성 실패: 응답에 resultData가 없습니다.");
+        }
+      } catch (e) {
+        print("팀 생성 실패: $e");
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -324,23 +359,7 @@ class TeamProjectAdd extends GetView<TeamController> {
                     : const Color(0xff424656)),
             child: TextButton(
               //모든 내용이 입력되었을경우 생성완료
-              onPressed: () {
-                if (controller.allFinish == true.obs) {
-                  teamData = {
-                    'category': '',
-                    'teamName': controller.teamName.toString(),
-                    'type': Type.team,
-                    'startDate': controller.start.toString(),
-                    'endDate': controller.end.toString(),
-                    'startTime': '',
-                    'endTime': '',
-                    'description': controller.description.toString(),
-                    'color': '',
-                    'isChecked': false,
-                  };
-                  Get.toNamed("/team/create", arguments: teamData);
-                }
-              },
+              onPressed: _createTeam,
               child: Text(
                 "생성하기",
                 style: controller.allFinish == false.obs

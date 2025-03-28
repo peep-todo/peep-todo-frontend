@@ -25,7 +25,10 @@ class ProjectCreate extends GetView<TeamController> {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    final Map<String, dynamic> teamData = Get.arguments as Map<String, dynamic>;
+    final data = Get.arguments as Map;
+    final teamData = data['teamData']; // teamData
+    final inviteUrl = data['inviteUrl'];
+
     return Scaffold(
       appBar: AppBar(
         //뒤로가기 버튼 제거
@@ -130,13 +133,19 @@ class ProjectCreate extends GetView<TeamController> {
                     color: const Color(0xffCFCFCF).withOpacity(0.5),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Center(
-                    child: Text(
-                      "https://www.figma.com/design/U23RIAk5W5V",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xff808080),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        inviteUrl,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff808080),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
                       ),
                     ),
                   ),
@@ -144,7 +153,7 @@ class ProjectCreate extends GetView<TeamController> {
                 const SizedBox(height: 5),
                 OutlinedButton(
                   onPressed: () {
-                    onClickShareUrl("www.naver.com입니다. 글까지 넘어가나?");
+                    onClickShareUrl("$inviteUrl url테스트");
                   },
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
