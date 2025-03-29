@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:todo_peep/widgets/checkbox_componenet.dart';
+import 'package:todo_peep/widgets/common/add_choice_detaillist.dart';
+import 'package:todo_peep/controllers/detail_task_controller.dart';
 
 class DetailList extends StatefulWidget {
   const DetailList({super.key});
@@ -15,8 +18,7 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
   int weekOffset = 1000;
   late PageController _pageController;
 
-  bool hasSchedule = false; // 일정이 추가되지 않았는지 여부
-
+  // hasSchedule을 사용하지 않고, 이미지가 항상 보이도록 변경
   double dateGap = 8.0; // 날짜 간의 간격을 설정할 수 있는 변수 추가
   double boxWidth = 40.0; // 날짜 박스의 너비를 설정할 수 있는 변수 추가
 
@@ -135,9 +137,33 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
                   ),
                   TextButton(
                     onPressed: () {
-                      setState(() {
-                        hasSchedule = true;
-                      });
+                      showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 37),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(20),
+                                bottom: Radius.circular(20),
+                              ),
+                              child: Container(
+                                color: Colors.white,
+                                width: MediaQuery.of(context).size.width - 20,
+                                height: 97 +
+                                    ((MediaQuery.of(context).size.width - 94) /
+                                        3),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  child: AddChoiceDetaillist(),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     },
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -244,31 +270,30 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
               ),
 
               // 일정이 없을 때 보여줄 이미지
-              if (!hasSchedule)
-                Expanded(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/detaillist/detailMain.png',
-                          height: 133,
-                          width: 165,
+              Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/detaillist/detailMain.png',
+                        height: 133,
+                        width: 165,
+                      ),
+                      const SizedBox(height: 10), // 이미지와 텍스트 사이의 간격
+                      const Text(
+                        '일정을 추가해주세요',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFFCFCFCF),
                         ),
-                        const SizedBox(height: 10), // 이미지와 텍스트 사이의 간격
-                        const Text(
-                          '일정을 추가해주세요',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFFCFCFCF),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
             ],
           ),
         ),
