@@ -13,10 +13,16 @@ import 'package:todo_peep/screens/team/team_detail_veiwall.dart';
 import 'package:todo_peep/screens/team/team_project_add.dart';
 import 'package:todo_peep/screens/detaillist/detaillist.dart';
 import 'package:intl/date_symbol_data_local.dart'; // 추가
+import 'package:todo_peep/screens/detaillist/detail_category.dart';
+import 'package:todo_peep/screens/detaillist/detail_schedule.dart';
+import 'package:todo_peep/controllers/detail_task_controller.dart';
 
 void main() async {
   // 로케일 데이터 초기화
   await initializeDateFormatting('ko_KR', null);
+
+  // ✅ 컨트롤러 인스턴스 등록
+  Get.put(DetailTaskController());
 
   runApp(const MyApp());
 }
@@ -36,7 +42,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           surfaceTintColor: Colors.white,
           shadowColor: Colors.black,
-          elevation: 0,
+          elevation: 0.0,
           backgroundColor: Colors.white,
           titleTextStyle: TextStyle(
             color: Colors.black,
@@ -57,6 +63,12 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/taro/result", page: () => TaroResult()),
         GetPage(name: "/taro/loading", page: () => const TaroLoading()),
         GetPage(name: "/detaillist", page: () => const DetailList()),
+        GetPage(
+            name: "/detaillist/detail/category",
+            page: () => AddCategoryDetaillist()),
+        GetPage(
+            name: "/detaillist/detail/schedule",
+            page: () => AddScheduleDetaillist()),
         // GetPage(
         //     name: "/splash",
         //     page: () => const SplashScreen()), // 스플래시 스크린 경로 추가
