@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:todo_peep/widgets/checkbox_componenet.dart';
-import 'package:todo_peep/widgets/common/add_choice_detaillist.dart';
+import 'package:todo_peep/widgets/detail/add_choice_detaillist.dart';
 import 'package:todo_peep/controllers/detail_task_controller.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:todo_peep/widgets/detail/detail_checkbox_componenet.dart';
 
 class DetailList extends StatefulWidget {
   const DetailList({super.key});
@@ -21,6 +23,91 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
   // hasSchedule을 사용하지 않고, 이미지가 항상 보이도록 변경
   double dateGap = 8.0; // 날짜 간의 간격을 설정할 수 있는 변수 추가
   double boxWidth = 40.0; // 날짜 박스의 너비를 설정할 수 있는 변수 추가
+
+  List<Map<String, dynamic>> taskData = [
+    {
+      'category': '알바',
+      'name': '근로',
+      'type': 'detail',
+      'startDate': '',
+      'endDate': '',
+      'startTime': '10:10',
+      'endTime': '17:00',
+      'color': 'FFB1AC',
+      'isChecked': true,
+    },
+    {
+      'category': '알바',
+      'name': '근로',
+      'type': 'detail',
+      'startDate': '',
+      'endDate': '',
+      'startTime': '10:10',
+      'endTime': '17:00',
+      'color': 'FFB1AC',
+      'isChecked': false,
+    },
+    {
+      'category': '약속',
+      'name': '근로',
+      'type': 'detail',
+      'startDate': '',
+      'endDate': '',
+      'startTime': '10:10',
+      'endTime': '17:00',
+      'color': 'CDE5D5',
+      'isChecked': true,
+    },
+    {
+      'category': '약속',
+      'name': '근로',
+      'type': 'detail',
+      'startDate': '',
+      'endDate': '',
+      'startTime': '10:10',
+      'endTime': '17:00',
+      'color': 'CDE5D5',
+      'isChecked': false,
+    },
+    {
+      'category': '해야할 일',
+      'name': '근로',
+      'type': 'detail',
+      'startDate': '',
+      'endDate': '',
+      'startTime': '10:10',
+      'endTime': '17:00',
+      'color': 'BFC4D7',
+      'isChecked': false,
+    },
+    {
+      'category': '해야할 일',
+      'name': '근로',
+      'type': 'detail',
+      'startDate': '',
+      'endDate': '',
+      'startTime': '10:10',
+      'endTime': '17:00',
+      'color': 'BFC4D7',
+      'isChecked': true,
+    },
+    {
+      'category': '일',
+      'name': '근로',
+      'type': 'detail',
+      'startDate': '',
+      'endDate': '',
+      'startTime': '10:10',
+      'endTime': '17:00',
+      'color': 'BFC4D7',
+      'isChecked': true,
+    },
+  ];
+
+  late String category = "";
+  late String name = "";
+  late String time = "";
+  late bool categoryChanged = false;
 
   @override
   void initState() {
@@ -92,7 +179,10 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    String month = DateFormat.MMMM('ko').format(currentWeekStart);
+    String month = weekOffset == 1000
+        ? DateFormat.MMMM('ko').format(selectedDate)
+        : DateFormat.MMMM('ko').format(currentWeekStart);
+
     String fullDate = DateFormat('yyyy년 MM월 dd일', 'ko').format(selectedDate);
 
     return Scaffold(
@@ -109,7 +199,7 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// 상단 날짜 정보
+              // 상단 날짜 정보
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -186,7 +276,7 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
               ),
               const SizedBox(height: 20),
 
-              /// 요일 + 날짜 선택 (고정된 요일 + 스크롤되는 날짜)
+              // 요일 + 날짜 선택
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -195,7 +285,7 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: ['일', '월', '화', '수', '목', '금', '토']
                         .map((day) => SizedBox(
-                              width: 50, // 날짜와 동일한 크기로 통일
+                              width: 50,
                               child: Center(
                                 child: Text(
                                   day,
@@ -209,12 +299,10 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
                             ))
                         .toList(),
                   ),
-
-                  const SizedBox(height: 6), // 요일과 날짜 간격 조정
-
+                  const SizedBox(height: 2),
                   // 날짜 (스크롤 가능)
                   SizedBox(
-                    height: 50,
+                    height: 40,
                     child: PageView.builder(
                       controller: _pageController,
                       onPageChanged: updateWeek,
@@ -234,9 +322,8 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
                                 });
                               },
                               child: SizedBox(
-                                width: 50, // 요일과 동일한 너비 유지
+                                width: 50,
                                 child: Center(
-                                  // 내부 컨테이너를 중앙 정렬
                                   child: Container(
                                     width: isSelected ? 40 : 50,
                                     height: 40,
@@ -270,30 +357,122 @@ class _DetailListState extends State<DetailList> with WidgetsBindingObserver {
               ),
 
               // 일정이 없을 때 보여줄 이미지
+              // Expanded(
+              //   child: Center(
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       crossAxisAlignment: CrossAxisAlignment.center,
+              //       children: [
+              //         Image.asset(
+              //           'assets/images/detaillist/detailMain.png',
+              //           height: 133,
+              //           width: 165,
+              //         ),
+              //         const SizedBox(height: 10), // 이미지와 텍스트 사이의 간격
+              //         const Text(
+              //           '일정을 추가해주세요',
+              //           style: TextStyle(
+              //             fontSize: 14,
+              //             fontWeight: FontWeight.w400,
+              //             color: Color(0xFFCFCFCF),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+
+              const SizedBox(height: 29),
+              // 일정 목록 추가
               Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/detaillist/detailMain.png',
-                        height: 133,
-                        width: 165,
-                      ),
-                      const SizedBox(height: 10), // 이미지와 텍스트 사이의 간격
-                      const Text(
-                        '일정을 추가해주세요',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFFCFCFCF),
-                        ),
-                      ),
-                    ],
-                  ),
+                child: ListView.builder(
+                  padding: EdgeInsets.zero, // 여백 제거
+                  itemBuilder: (context, index) {
+                    if (category != taskData[index]['category']) {
+                      category = taskData[index]['category'];
+                      categoryChanged = true;
+                    } else {
+                      categoryChanged = false;
+                    }
+
+                    if (categoryChanged &&
+                        category == taskData[0]['category']) {
+                      return Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.circle,
+                                size: 15,
+                                color: taskData[index]['color'] != null
+                                    ? Color(int.parse(
+                                        '0xff${taskData[index]['color']}'))
+                                    : Colors.black,
+                              ),
+                              const SizedBox(width: 10), // 글머리 기호와 텍스트 사이의 간격
+                              Text(
+                                taskData[index]['category'],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const Spacer(),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15),
+                                child: SvgPicture.asset(
+                                  "assets/images/common/pin.svg",
+                                  width: 15,
+                                  height: 15,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 9), // 카테고리 하단의 간격
+                          DetailCheckboxComponenet(taskData: taskData[index]),
+                        ],
+                      );
+                    } else if (categoryChanged &&
+                        category != taskData[0]['category']) {
+                      return Column(
+                        children: [
+                          const SizedBox(height: 27), // 카테고리 간 간격
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.circle,
+                                size: 15,
+                                color: taskData[index]['color'] != null
+                                    ? Color(int.parse(
+                                        '0xff${taskData[index]['color']}'))
+                                    : Colors.black,
+                              ),
+                              const SizedBox(width: 10), // 글머리 기호와 텍스트 사이의 간격
+                              Text(
+                                taskData[index]['category'],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 9), // 카테고리 하단의 간격
+                          DetailCheckboxComponenet(taskData: taskData[index]),
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          const SizedBox(height: 9),
+                          DetailCheckboxComponenet(taskData: taskData[index]),
+                        ],
+                      );
+                    }
+                  },
+                  itemCount: taskData.length,
                 ),
-              ),
+              )
             ],
           ),
         ),
