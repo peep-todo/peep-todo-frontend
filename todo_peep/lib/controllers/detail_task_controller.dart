@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_peep/widgets/detail/select_time.dart';
+import 'package:flutter/material.dart';
 
 class DetailTaskController extends GetxController {
   RxString category = "".obs;
@@ -13,6 +15,11 @@ class DetailTaskController extends GetxController {
   RxString categoryName = "".obs;
   RxString categoryColor = "".obs;
   RxBool categoryAllFinished = false.obs;
+  var isSameDay = false.obs;
+  RxString startTime = ''.obs;
+  var endTime = ''.obs; // 종료 시간 저장
+
+  final TimeController timeController = Get.put(TimeController());
 
   @override
   void onInit() {
@@ -99,5 +106,13 @@ class DetailTaskController extends GetxController {
     } else {
       categoryAllFinished(false);
     }
+  }
+
+  void showTimePicker(BuildContext context) {
+    showCustomTimePicker(context, isStart: true);
+  }
+
+  void showEndTimePicker(BuildContext context) {
+    showCustomTimePicker(context, isStart: false);
   }
 }

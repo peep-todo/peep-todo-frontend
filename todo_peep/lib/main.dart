@@ -16,6 +16,7 @@ import 'package:intl/date_symbol_data_local.dart'; // 추가
 import 'package:todo_peep/screens/detaillist/detail_category.dart';
 import 'package:todo_peep/screens/detaillist/detail_schedule.dart';
 import 'package:todo_peep/controllers/detail_task_controller.dart';
+import 'package:todo_peep/widgets/detail/select_time.dart';
 
 void main() async {
   // 로케일 데이터 초기화
@@ -23,6 +24,7 @@ void main() async {
 
   // ✅ 컨트롤러 인스턴스 등록
   Get.put(DetailTaskController());
+  Get.put(TimeController());
 
   runApp(const MyApp());
 }

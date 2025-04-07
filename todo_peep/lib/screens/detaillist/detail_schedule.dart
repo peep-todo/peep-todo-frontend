@@ -2,13 +2,19 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_peep/controllers/team_task_controller.dart';
+import 'package:todo_peep/controllers/detail_task_controller.dart';
 import 'package:todo_peep/widgets/team/select_date.dart';
+import 'package:todo_peep/widgets/detail/select_time.dart';
 
-class AddScheduleDetaillist extends GetView<TeamTaskController> {
+class AddScheduleDetaillist extends GetView<DetailTaskController> {
   AddScheduleDetaillist({super.key});
 
   final List<String> items = ['frontend', 'backend', 'design'];
+  final timeController = Get.find<TimeController>();
+
+  final TextEditingController scheduleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
 
   String? getToday() {
     DateTime now = DateTime.now();
@@ -17,19 +23,19 @@ class AddScheduleDetaillist extends GetView<TeamTaskController> {
     return strToday;
   }
 
-  final TextEditingController scheduleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
+  String? getTime() {
+    return '없음';
+  }
 
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    if (Get.isRegistered<TeamTaskController>()) {
-      Get.delete<TeamTaskController>();
+    if (Get.isRegistered<DetailTaskController>()) {
+      Get.delete<DetailTaskController>();
     }
-    Get.put(TeamTaskController());
+    Get.put(DetailTaskController());
 
     return Obx(() {
       // ignore: deprecated_member_use
@@ -193,102 +199,63 @@ class AddScheduleDetaillist extends GetView<TeamTaskController> {
                       ),
                       onChanged: controller.onScheduleChanged,
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 15),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "시작 날짜",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xff808080),
+                        GestureDetector(
+                          onTap: controller.onCategoryPinToggle,
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle, // 체크박스 모양 (사각형)
+                              borderRadius: BorderRadius.circular(5), // 모서리 둥글기
+                              border: Border.all(
+                                color: controller.categoryPin.value
+                                    ? const Color(0xff424656)
+                                    : const Color(
+                                        0xffD1D1D6), // 체크 여부에 따른 테두리 색상
+                                width: 1,
                               ),
+                              color: controller.categoryPin.value
+                                  ? const Color(0xff424656)
+                                  : Colors.white, // 체크 여부에 따른 배경색
                             ),
-                            SizedBox(
-                              width: screenWidth * 0.4,
-                              height: 50,
-                              child: TextFormField(
-                                  controller: dateController,
-                                  decoration: InputDecoration(
-                                    contentPadding:
-                                        const EdgeInsets.only(left: 16),
-                                    suffixIcon: const Icon(
-                                      Icons.calendar_month_outlined,
-                                      size: 20,
-                                      color: Color(0xffcfcfcf),
-                                    ),
-                                    filled: true,
-                                    fillColor: const Color(0xffF4F4F4)
-                                        .withOpacity(0.5),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    hintText: controller.start == ''.obs
-                                        ? getToday()
-                                        : controller.start.toString(),
-                                    hintStyle: controller.start == ''.obs
-                                        ? const TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xffcfcfcf),
-                                          )
-                                        : const TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff000000),
-                                          ),
-                                  ),
-                                  readOnly: true,
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      backgroundColor: Colors.white,
-                                      isScrollControlled: false,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(20)),
-                                      ),
-                                      context: context,
-                                      builder: (context) {
-                                        return SizedBox(
-                                          width: screenWidth - 20,
-                                          height: 452, // 원하는 높이로 설정
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20),
-                                            child: SelectDate(
-                                              startDate:
-                                                  controller.start.toString(),
-                                              endDate:
-                                                  controller.end.toString(),
-                                              onDateRangeSelected: controller
-                                                  .handleDateRangeSelected,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  }),
-                            ),
-                          ],
+                            child: controller.categoryPin.value
+                                ? const Icon(Icons.check,
+                                    size: 18, color: Colors.white)
+                                : null,
+                          ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "종료 날짜",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xff808080),
+                        const SizedBox(width: 8),
+                        const Text(
+                          "당일 일정",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff525252),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "시작 날짜",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff808080),
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: screenWidth * 0.4,
-                              height: 50,
-                              child: TextFormField(
+                              SizedBox(
+                                height: 50,
+                                child: TextFormField(
                                   controller: dateController,
                                   decoration: InputDecoration(
                                     contentPadding:
@@ -308,15 +275,10 @@ class AddScheduleDetaillist extends GetView<TeamTaskController> {
                                     hintText: controller.end == ''.obs
                                         ? getToday()
                                         : controller.end.toString(),
-                                    hintStyle: controller.end == ''.obs
-                                        ? const TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xffcfcfcf),
-                                          )
-                                        : const TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff000000),
-                                          ),
+                                    hintStyle: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xff000000),
+                                    ),
                                   ),
                                   readOnly: true,
                                   onTap: () {
@@ -330,8 +292,11 @@ class AddScheduleDetaillist extends GetView<TeamTaskController> {
                                       context: context,
                                       builder: (context) {
                                         return SizedBox(
-                                          width: screenWidth - 20,
-                                          height: 452, // 원하는 높이로 설정
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              20,
+                                          height: 452,
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 20),
@@ -347,9 +312,239 @@ class AddScheduleDetaillist extends GetView<TeamTaskController> {
                                         );
                                       },
                                     );
-                                  }),
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "시작 시간",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff808080),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                                child: Obx(() => TextFormField(
+                                      controller: timeController
+                                          .startTimeTextController,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.only(left: 16),
+                                        suffixIcon: const Icon(
+                                          Icons.access_time,
+                                          size: 20,
+                                          color: Color(0xffcfcfcf),
+                                        ),
+                                        filled: true,
+                                        fillColor: const Color(0xffF4F4F4)
+                                            .withOpacity(0.5),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        hintText: timeController
+                                                .startTime.value.isEmpty
+                                            ? getTime()
+                                            : timeController.startTime.value,
+                                        hintStyle: const TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xff000000),
+                                        ),
+                                      ),
+                                      readOnly: true,
+                                      onTap: () {
+                                        timeController.showTimePicker(context,
+                                            isStart: true);
+                                      },
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "종료 날짜",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff808080),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                                child: TextFormField(
+                                  controller: dateController,
+                                  decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(left: 16),
+                                    suffixIcon: const Icon(
+                                      Icons.calendar_month_outlined,
+                                      size: 20,
+                                      color: Color(0xffcfcfcf),
+                                    ),
+                                    filled: true,
+                                    fillColor: const Color(0xffF4F4F4)
+                                        .withOpacity(0.5),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    hintText: controller.end == ''.obs
+                                        ? getToday()
+                                        : controller.end.toString(),
+                                    hintStyle: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
+                                  readOnly: true,
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      backgroundColor: Colors.white,
+                                      isScrollControlled: false,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(20)),
+                                      ),
+                                      context: context,
+                                      builder: (context) {
+                                        return SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              20,
+                                          height: 452,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            child: SelectDate(
+                                              startDate:
+                                                  controller.start.toString(),
+                                              endDate:
+                                                  controller.end.toString(),
+                                              onDateRangeSelected: controller
+                                                  .handleDateRangeSelected,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "종료 시간",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff808080),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                                child: Obx(() => TextFormField(
+                                      controller:
+                                          timeController.endTimeTextController,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.only(left: 16),
+                                        suffixIcon: const Icon(
+                                          Icons.access_time,
+                                          size: 20,
+                                          color: Color(0xffcfcfcf),
+                                        ),
+                                        filled: true,
+                                        fillColor: const Color(0xffF4F4F4)
+                                            .withOpacity(0.5),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        hintText:
+                                            timeController.endTime.value.isEmpty
+                                                ? getTime()
+                                                : timeController.endTime.value,
+                                        hintStyle: const TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xff000000),
+                                        ),
+                                      ),
+                                      readOnly: true,
+                                      onTap: () {
+                                        timeController.showTimePicker(context,
+                                            isStart: false);
+                                      },
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: controller.onCategoryPinToggle,
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle, // 체크박스 모양 (사각형)
+                              borderRadius: BorderRadius.circular(5), // 모서리 둥글기
+                              border: Border.all(
+                                color: controller.categoryPin.value
+                                    ? const Color(0xff424656)
+                                    : const Color(
+                                        0xffD1D1D6), // 체크 여부에 따른 테두리 색상
+                                width: 1,
+                              ),
+                              color: controller.categoryPin.value
+                                  ? const Color(0xff424656)
+                                  : Colors.white, // 체크 여부에 따른 배경색
                             ),
-                          ],
+                            child: controller.categoryPin.value
+                                ? const Icon(Icons.check,
+                                    size: 18, color: Colors.white)
+                                : null,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          "루틴으로 설정하기",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff525252),
+                          ),
                         ),
                       ],
                     ),
