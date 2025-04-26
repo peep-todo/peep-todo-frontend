@@ -150,8 +150,8 @@ void showCustomTimePicker(BuildContext context, {required bool isStart}) {
                                   Get.snackbar(
                                     "시간 설정 오류",
                                     "시작 시간은 종료 시간보다 빨라야 합니다.",
-                                    backgroundColor: const Color.fromARGB(
-                                        255, 228, 159, 159),
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 88, 88, 88),
                                     colorText: Colors.white,
                                     duration: Duration(seconds: 2),
                                   );
@@ -184,7 +184,7 @@ void showCustomTimePicker(BuildContext context, {required bool isStart}) {
                                   "시간 설정 오류",
                                   "종료 시간은 시작 시간보다 빠를 수 없습니다.",
                                   backgroundColor:
-                                      const Color.fromARGB(255, 228, 159, 159),
+                                      const Color.fromARGB(255, 88, 88, 88),
                                   colorText: Colors.white,
                                   duration: Duration(seconds: 2),
                                 );

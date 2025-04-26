@@ -19,6 +19,11 @@ class DetailTaskController extends GetxController {
   RxString startTime = ''.obs;
   var endTime = ''.obs; // 종료 시간 저장
 
+  var isRoutine = false.obs;
+  var isToday = false.obs;
+
+  var repeatCycle = ''.obs;
+
   final TimeController timeController = Get.put(TimeController());
 
   @override
@@ -52,6 +57,14 @@ class DetailTaskController extends GetxController {
       end(DateFormat('yyyy-MM-dd').format(startDate));
       allFinished();
     }
+  }
+
+  void onRoutineToggle() {
+    isRoutine.value = !isRoutine.value;
+  }
+
+  void onTodayToggle() {
+    isToday.value = !isToday.value;
   }
 
   void onCategoryChanged(String value) {
